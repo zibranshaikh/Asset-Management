@@ -228,15 +228,24 @@ public class AssetController
         { 
          if(c.getDesignation().equalsIgnoreCase("Employee"))
          {
-         sendMail(c.getEid(),c.getEmail(),c.getPassword(),c.getMid());
+        	 String email=c.getEmail();
+        	 String subject="Systango Employee Account Creation";
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid();
+         sendMail(email,subject,message);
          }
          else if(c.getDesignation().equalsIgnoreCase("Manager"))
          {
-         sendMail(c.getMid(),c.getEmail(),c.getPassword());
+        	 String email=c.getEmail();
+        	 String subject="Systango Employee Account Creation";
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid()+" Your password is :  "+c.getPassword()+" Your Support id is : "+c.getSid();       	 
+         sendMail(email,subject,message);
          }
          else if(c.getDesignation().equalsIgnoreCase("Support Team"))
          {
-         sendMail1(c.getEid(),c.getEmail(),c.getPassword());
+        	 String email=c.getEmail();
+        	 String subject="Systango Employee Account Creation";
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid()+" Your password is :  "+c.getPassword(); 	 
+         sendMail(email,subject,message);
          }
          mv=new ModelAndView("createEmp");//view name
        mv.addObject("msg","Employee Succesfully created");
@@ -245,15 +254,15 @@ public class AssetController
 
   	}
    
-   public void sendMail(String eid,String email,String pwd1,String managerid)
+   public void sendMail(String email,String subject,String message1)
    {
 		  // Recipient's email ID needs to be mentioned.
 	      String to =email;//request.getParameter("id");//change accordingly
-	      String sub="Systango Account Creation & Password";
+	      String sub=subject;
 //	      long p=System.currentTimeMillis();//439807598430759083
 //	      String pwd=(p+"").substring(7);
-	      String pwd=pwd1;
-	      String msg="Welcome at Systango your login id is "+eid+" and your password "+pwd+" your manager id is "+managerid;
+	   //   String pwd=pwd1;
+	      String msg=message1;
 	      // Sender's email ID needs to be mentioned
 	      String from = "zshaikh1990s@gmail.com";
 	      final String username = "zshaikh1990s@gmail.com";//change accordingly
@@ -303,123 +312,7 @@ public class AssetController
 	    	     }	
 	      }
    
-   public void sendMail(String managerid,String email,String pwd1)
-   {
-	      String to = email;//request.getParameter("id");//change accordingly
-	      String sub="Systango Employee Account Creation & Password";
-//	      long p=System.currentTimeMillis();//439807598430759083
-//	      String pwd=(p+"").substring(7);
-          String pwd=pwd1;
-	      String msg="Welcome at Systango your Login Id is "+managerid+" and your password is "+pwd;
-	      // Sender's email ID needs to be mentioned
-	      String from = "zshaikh1990s@gmail.com";
-	      final String username = "zshaikh1990s@gmail.com";//change accordingly
-	      final String password = "93009300";//change accordingly
-
-	      // Assuming you are sending email through relay.jangosmtp.net
-	      String host = "smtp.gmail.com";
-
-	      Properties props = new Properties();
-	      props.put("mail.smtp.auth", "true");
-	      props.put("mail.smtp.starttls.enable", "true");
-	      props.put("mail.smtp.host", host);
-	      props.put("mail.smtp.port", "587");
-
-	      // Get the Session object.
-	      Session session = Session.getInstance(props,
-	      new javax.mail.Authenticator() {
-	         protected PasswordAuthentication getPasswordAuthentication() {
-	            return new PasswordAuthentication(username, password);
-	         }
-	      });
-
-	      try {
-	         // Create a default MimeMessage object.
-	         Message message = new MimeMessage(session);
-
-	         // Set From: header field of the header.
-	         message.setFrom(new InternetAddress(from));
-
-	         // Set To: header field of the header.
-	         message.setRecipients(Message.RecipientType.TO,
-	         InternetAddress.parse(to));
-
-	         // Set Subject: header field
-	         message.setSubject(sub);
-
-	         // Now set the actual message
-	         message.setText(msg);
-
-	         // Send message
-	         
-            Transport.send(message);
-//	         PrintWriter out=response.getWriter();
-//	        out.println("Sent message successfully....");
-
-	         System.out.println("Mail sent Successfully");
-	         } catch (MessagingException e) {
-	    	  e.printStackTrace();
-	    	     }	
-	      }
- 
-   public void sendMail1(String eid,String email,String pwd1)
-   {
-	   String to = email;//request.getParameter("id");//change accordingly
-	      String sub="Systango Employee Account Creation & Password";
-//	      long p=System.currentTimeMillis();//439807598430759083
-//	      String pwd=(p+"").substring(7);
-          String pwd=pwd1;
-	      String msg="Welcome at Systango your Login Id is "+eid+" and your password is "+pwd;
-	      // Sender's email ID needs to be mentioned
-	      String from = "zshaikh1990s@gmail.com";
-	      final String username = "zshaikh1990s@gmail.com";//change accordingly
-	      final String password = "93009300";//change accordingly
-
-	      // Assuming you are sending email through relay.jangosmtp.net
-	      String host = "smtp.gmail.com";
-
-	      Properties props = new Properties();
-	      props.put("mail.smtp.auth", "true");
-	      props.put("mail.smtp.starttls.enable", "true");
-	      props.put("mail.smtp.host", host);
-	      props.put("mail.smtp.port", "587");
-
-	      // Get the Session object.
-	      Session session = Session.getInstance(props,
-	      new javax.mail.Authenticator() {
-	         protected PasswordAuthentication getPasswordAuthentication() {
-	            return new PasswordAuthentication(username, password);
-	         }
-	      });
-
-	      try {
-	         // Create a default MimeMessage object.
-	         Message message = new MimeMessage(session);
-
-	         // Set From: header field of the header.
-	         message.setFrom(new InternetAddress(from));
-
-	         // Set To: header field of the header.
-	         message.setRecipients(Message.RecipientType.TO,
-	         InternetAddress.parse(to));
-
-	         // Set Subject: header field
-	         message.setSubject(sub);
-
-	         // Now set the actual message
-	         message.setText(msg);
-
-	         // Send message
-	         
-	         Transport.send(message);
-//	         PrintWriter out=response.getWriter();
-//	        out.println("Sent message successfully....");
-	         System.out.println("Mail sent Successfully");
-	         } catch (MessagingException e) {
-	    	  e.printStackTrace();
-	    	     }	
-	      }
-     
+      
    @RequestMapping("/UpdateEmp")
    //public(@RequestParam int id,@RequestParam String name,@RequestParam String address,@RequestParam String mobile)
  	public ModelAndView updateEmp(@ModelAttribute("Employee") Employee c,@RequestParam String eid1)
@@ -834,7 +727,7 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
  	        ModelAndView mv=null;
  	        
  	        EmpDao ed=new EmpDao();
- 			//int y=ed.MinsertRequest(e1);
+ 			int y=ed.MinsertRequest(e1);
  			if(y!=0)
  			{
  				mv=new ModelAndView("ManagerCreateRequest");

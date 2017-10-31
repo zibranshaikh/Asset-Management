@@ -17,6 +17,7 @@ import org.hibernate.criterion.Restrictions;
 import com.controllers.AssetController;
 
 import beans.AdminLogin;
+import beans.Asset;
 import beans.Employee;
 
 public class EmpDao {
@@ -170,13 +171,13 @@ public class EmpDao {
 		    return e;
 	}
 
-	public List<Employee> viewRequest() {
+	public ArrayList<Employee> viewRequest() {
 		int status=2;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
 		Criteria crit = ss.createCriteria(Employee.class);
 		crit.add(Restrictions.eq("status",status));
-	    List<Employee> list = crit.list();
+	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
 		Transaction tt=ss.beginTransaction();
 		
 		tt.commit();
@@ -190,18 +191,20 @@ public class EmpDao {
 
 		int x=0;
 		int status=4;
-		try {	
-			 Connection con=new LoginDao().start();
-		    PreparedStatement ps=con.prepareStatement("update request set status=? where eid=?");
-			ps.setInt(1,status);
-			ps.setString(2,eid);
-			 x=ps.executeUpdate();
-		
-				con.close();
-	  }catch(SQLException  ex)
-	{
-		System.err.println(ex);
-	}
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+	    String hql="update request set status=:a where eid=:b";
+	    Query q=ss.createQuery(hql);
+	    q.setInteger("a",status);
+	    q.setString("b",eid);
+	     x=q.executeUpdate();
+
+	     
+	     Transaction tt=ss.beginTransaction();
+			
+			tt.commit();
+			ss.close();
+	    	
 
 		return x;
 	}
@@ -209,137 +212,85 @@ public class EmpDao {
 	public int rejectReq(String eid) {
 		int x=0;
 		int status=5;
-		try {	
-			 Connection con=new LoginDao().start();
-		    PreparedStatement ps=con.prepareStatement("update request set status=? where eid=?");
-			ps.setInt(1,status);
-			ps.setString(2,eid);
-			x=ps.executeUpdate();
-		
-				con.close();
-	  }catch(SQLException  ex)
-	{
-		System.err.println(ex);
-	}
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+	    String hql="update request set status=:a where eid=:b";
+	    Query q=ss.createQuery(hql);
+	    q.setInteger("a",status);
+	    q.setString("b",eid);
+	     x=q.executeUpdate();
+		    		
 
 		return x;
 
 	}
 
 	public ArrayList<Employee> viewReports() {
+		
+
 		int status=4;
-		ArrayList<Employee> list=new ArrayList<>();
-		try {	
-		    Connection con=new LoginDao().start();
-		    PreparedStatement ps=con.prepareStatement("select * from request where status=?");
-		    ps.setInt(1,status);
-			ResultSet rs= ps.executeQuery();
-		while(rs.next())
-		{
-			Employee e=new Employee();
-			e.setEid(rs.getString("eid"));
-			e.setDesignation(rs.getString("designation"));
-			e.setAssetid(rs.getInt("assetid"));
-			e.setAssetname(rs.getString("assetname"));
-			e.setReqdate(rs.getString("reqdate"));
-			e.setStatus(rs.getInt("status"));
-			
-			list.add(e);
-		}
-			con.close();
-			  }catch(SQLException  ex)
-			{
-				System.err.println(ex);
-			}
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Employee.class);
+		crit.add(Restrictions.eq("status",status));
+	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+		Transaction tt=ss.beginTransaction();
+		
+		tt.commit();
+		ss.close();
 		
 		return list;
+	
 	}
 	
 
 	
 	public String getAssetid(String assetname)
 	{
-	String x=null;
-	try {
-	Connection con=new LoginDao().start();
-	PreparedStatement ps=con.prepareStatement("select assetid from asset where assetname=?");
-		ps.setString(1, assetname);
-		ResultSet rs=ps.executeQuery();
-		while(rs.next())
+		String a="";
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		 String hql="select assetid from Asset where assetname=:a";
+		Query q=ss.createQuery(hql);
+		q.setString("a",assetname);
+		Iterator it=q.iterate();
+		while(it.hasNext())
 		{
-			x=rs.getString("assetid");
-		System.out.println(x);
-	}
-	
-	}catch(SQLException e)
-	{
-		System.out.println(e);
-	}
-	return x;
+			 a=(String) it.next();
+		}
+		ss.close();
+	return a;
 	}
 	
 
-	
-	
 	public ArrayList<Employee> viewProfile(String y)
 	{
-	  ArrayList<Employee> list=new ArrayList<Employee>();
-	  try {
-		  Connection con=new LoginDao().start();
-		  PreparedStatement ps=con.prepareStatement("select * from employee where eid=?");
-		  ps.setString(1, y);
-	       ResultSet rs=ps.executeQuery();
-			while(rs.next())
-			{
-			Employee c=new Employee();
-			c.setEid(rs.getString("eid"));
-			c.setName(rs.getString("name"));
-			c.setAddress(rs.getString("address"));
-			c.setMobile(rs.getInt("mobile"));
-			c.setEmail(rs.getString("email"));
-			c.setPassword(rs.getString("password"));
-			c.setDesignation(rs.getString("designation"));
-			list.add(c);
-			}
-			con.close();
-			
-			
-		}catch(SQLException e)
-			{
-			System.out.println(e);
-			}
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Employee.class);
+		crit.add(Restrictions.eq("eid",y));
+	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+		Transaction tt=ss.beginTransaction();
+		
+		tt.commit();
+		ss.close();
 
-		
-		
 	  return list;		
 	}
 
 	
 	public ArrayList<Employee> viewEmUpdate(String eid) {
-	    ArrayList<Employee>list=new ArrayList<>();
-		  
-		try {	
-		    Connection con=new LoginDao().start();
-		    PreparedStatement ps=con.prepareStatement("select * from employee where eid=?");
-		    ps.setString(1,eid);
-			ResultSet rs= ps.executeQuery();
-		while(rs.next())
-		{   Employee e=new Employee();
-			e.setEid(rs.getString("eid"));
-			e.setName(rs.getString("name"));
-			e.setAddress(rs.getString("address"));
-			e.setEmail(rs.getString("email"));
-			e.setMobile(rs.getLong("mobile"));
-			e.setPassword(rs.getString("password"));
-			e.setDesignation(rs.getString("designation"));
-		list.add(e);	
-		}
-			con.close();
-			  }catch(SQLException  ex)
-			{
-				System.err.println(ex);
-			}
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Employee.class);
+		crit.add(Restrictions.eq("eid",eid));
+	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+		Transaction tt=ss.beginTransaction();
 		
+		tt.commit();
+		ss.close();
+
+
 		return list;
 	}
 
@@ -384,41 +335,40 @@ public class EmpDao {
 
 	public ArrayList<Employee> viewmanagerprofile(String user1) {
 
-		ArrayList<Employee> list=new ArrayList<>();
-		try {	
-		    Connection con=new LoginDao().start();
-		    PreparedStatement ps=con.prepareStatement("select * from employee where managerid=? and designation='Manager'");
-		    ps.setString(1, user1);
-			ResultSet rs= ps.executeQuery();
-			//if ("Manager".equals(designation))
-		while(rs.next())
-		{
-			 Employee a1=new Employee();
-			a1.setEid(rs.getString("eid"));
-			a1.setName(rs.getString("name"));
-			a1.setAddress(rs.getString("address"));
-			a1.setMobile(rs.getLong("mobile"));
-			a1.setEmail(rs.getString("email"));
-			a1.setPassword(rs.getString("password"));
-			a1.setDesignation(rs.getString("designation"));
-			a1.setMid(rs.getString("managerid"));
-			a1.setSid(rs.getString("supportid"));
-			a1.setDateofjoin(rs.getString("dateofjoin"));
-			a1.setStatus(rs.getInt("status"));
-			list.add(a1);
-		}
-			con.close();
-			  }catch(SQLException  ex)
-			{
-				System.err.println(ex);
-				ex.printStackTrace();
-			}
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Employee.class);
+		crit.add(Restrictions.eq("managerid",user1));
+		crit.add(Restrictions.eq("designation","Manager"));
+	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+		Transaction tt=ss.beginTransaction();
+		
+		tt.commit();
+		ss.close();
+
 		return list;
 		}
 
 	public int MinsertRequest(Employee e1) 
 	{
 int x=0;
+       AssetController ac=new AssetController();
+       Session ss= ac.session();
+       System.out.println(e1);
+
+	if(ss.save(e1)!=null)
+	{
+      x=1;	
+	}	
+	Transaction tt=ss.beginTransaction();
+	
+	tt.commit();
+	ss.close();
+	
+	
+	return x;
+
+
 		int status=2;
 		try {	
 			Connection con=new LoginDao().start();
@@ -430,13 +380,6 @@ int x=0;
 			ps.setString(5,e1.getdate());
 			ps.setInt(6, status);
 			x= ps.executeUpdate();
-			 con.close();
-			  }catch(SQLException  ex)
-			{
-				System.err.println(ex);
-			
-			}
-		return x;
 	}
 
 	public ArrayList<Employee> MviewRequest() 

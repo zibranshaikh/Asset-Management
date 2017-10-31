@@ -68,7 +68,7 @@ public class LoginDao {
 			AssetController ac=new AssetController();
 			Session ss= ac.session();
 			Criteria crit = ss.createCriteria(Employee.class);
-		    crit.add(Restrictions.eq("userid",eid));
+		    crit.add(Restrictions.eq("eid",eid));
 		    crit.add(Restrictions.eq("password",pwd));
 		    crit.add(Restrictions.eq("designation",logas));
 			
@@ -89,7 +89,7 @@ public class LoginDao {
 			AssetController ac=new AssetController();
 			Session ss= ac.session();
 			Criteria crit = ss.createCriteria(Employee.class);
-		    crit.add(Restrictions.eq("userid",eid));
+		    crit.add(Restrictions.eq("eid",eid));
 		    crit.add(Restrictions.eq("password",pwd));
 		    crit.add(Restrictions.eq("designation",logas));
 			
@@ -110,7 +110,7 @@ public class LoginDao {
 			AssetController ac=new AssetController();
 			Session ss= ac.session();
 			Criteria crit = ss.createCriteria(Employee.class);
-		    crit.add(Restrictions.eq("userid",eid));
+		    crit.add(Restrictions.eq("mid",eid));
 		    crit.add(Restrictions.eq("password",pwd));
 		    crit.add(Restrictions.eq("designation",logas));
 			
@@ -142,9 +142,8 @@ public class LoginDao {
     q.setString("a",eid);
      x=q.executeUpdate();
 
-     Transaction tt=ss.beginTransaction();
+    
 		
-		tt.commit();
 		ss.close();
 	
 		return x;
@@ -172,26 +171,20 @@ public class LoginDao {
 	
 	public String checkManager(String eid)
 	{
-		String x=null;
-		try {
-		Connection con=new LoginDao().start();
-		PreparedStatement ps=con.prepareStatement("select managerid from employee where eid=?");
-		ps.setString(1, eid);
-		ResultSet rs=ps.executeQuery();
-		while(rs.next())
+		String a="";
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		 String hql="select managerid from employee where eid=:a";
+		Query q=ss.createQuery(hql);
+		q.setString("a",eid);
+		Iterator it=q.iterate();
+		while(it.hasNext())
 		{
-			x=rs.getString("managerid");
-			
+			 a=(String) it.next();
 		}
-		
-		}catch(SQLException e)
-		{
-			
-			System.out.println(e);
+		ss.close();
+	return a;
 		}
-		return x;
-		
-	}
 
 	
 	

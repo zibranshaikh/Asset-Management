@@ -4,7 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Admin Change Password</title>
+<script type="text/javascript">
+  function validate()
+  {
+	  var npass1=document.getElementById("npass1").value;
+	  var npass2=document.getElementById("npass2").value;
+	  if(npass1!=npass2)
+		  {
+		  alert("New Password and Confirm Password not match ");
+		  return false;
+		  }
+  return true;
+  }
+</script>
+
 </head>
 <body>
 <p1 align="right">
@@ -16,14 +30,14 @@
 </p1>
 <center>
 <pre>
-<%@page import="dao.EmpDao"%>
+
 <h1>Change Password ${user}</h1>
 <form action="./AdpwdChange" method="post">
-Current password <input type="text" name="cpwd" required />
-New password     <input type="text" name="npwd" required />
-                 <input type="hidden" value="${user}" name="userid" />
-Confirm password <input type="text" name="npwd1" required />
-                 <input type="submit" value="Change" />
+Current Password  <input type="text" name="cpass" required="required" placeholder="123@zibran" onblur="pwdCheck()"/>
+New Password      <input type="text" name="npass1" id="npass1" required="required"  placeholder="123@zibran" />
+Confirm Password  <input type="text" name="npass2" id="npass2" required="required" placeholder="123@zibran" onblur="return validate()"/>
+                          
+             <input type="submit" value="Change Password" /><!-- button to submit the field and go to adeditcontroller -->
 </form>
 </pre>
 </center>

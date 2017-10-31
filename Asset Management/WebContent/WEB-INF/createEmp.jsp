@@ -119,11 +119,11 @@ if(m!=null)
 <h1>Welcome ${user}</h1>
 <table>
  <form action="./insertEmp" method="post">
- <tr><td>Name        <input type="text" name="name" /></td></tr>
- <tr><td>Address     <input type="text" name="address" /></td></tr>
- <tr><td>Email       <input type="email" name="email" /></td></tr>
- <tr><td>Mobile      <input type="text" name="mobile" /></td></tr>
- <tr><td>Password    <input type="password" name="password" /></td></tr>
+ <tr><td>Name        <input type="text" name="name" required="required" /></td></tr>
+ <tr><td>Address     <input type="text" name="address" required="required" /></td></tr>
+ <tr><td>Email       <input type="email" name="email" required="required" /></td></tr>
+ <tr><td>Mobile      <input type="text" name="mobile" required="required" /></td></tr>
+ <tr><td>Password    <input type="password" name="password" required="required" /></td></tr>
  <tr><td>Designation    <select  id="empDes" name="designation"  required="required" >
                     <option>Select</option>
                     <option value="Manager">Manager</option>
@@ -132,24 +132,24 @@ if(m!=null)
                     </select></td></tr>
                     
 <tr id="Employee"><td>
-EMPLOYEE ID  <input type="text" name="eid" id="eid" placeholder="E101" maxlength="15" />
+EMPLOYEE ID  <input type="text" name="eid" id="eid" placeholder="E101" maxlength="15" required="required" />
 </td></tr>
 <tr id="Manager"><td>
 Manager ID   <select name="mid" id="mid" />
                   </select>
 </td></tr> 
 <tr id="ManagerId"><td>
-Manager ID  <input type="text" name="mid" id="mid" placeholder="M101" maxlength="15" />
+Manager ID  <input type="text" name="mid" id="mid" placeholder="M101" maxlength="15" required="required" />
 </td></tr>
 <tr id="Support"><td>
-EMPLOYEE ID   <input type="text" name="eid" id="eid" placeholder="S101" maxlength="15" />
+EMPLOYEE ID   <input type="text" name="eid" id="eid" placeholder="S101" maxlength="15" required="required" />
 </td></tr>
 <tr id="SupportId"><td>
 Support ID <select name="sid" id="sid" />
                   </select>
 </td></tr>
 
-<tr><td>Date Of Joining<input type="date" name="dateofjoin" /></td></tr>
+<tr><td>Date Of Joining<input type="date" name="dateofjoin" required="required" /></td></tr>
 
 <tr><td><input type="submit" value="create" /></td></tr>
 </form>
