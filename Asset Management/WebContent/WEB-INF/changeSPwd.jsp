@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Admin Change Password</title>
+<title>Insert title here</title>
+</head>
+<body>
 <script type="text/javascript">
   function validate()
   {
@@ -18,22 +20,19 @@
   return true;
   }
 </script>
-
-</head>
-<body>
 <p1 align="right">
- <form action="./adminop" method="post">
-<input type="hidden" value="${user}" name="userid" /> 
+ <form action="./supop" method="post">
+<input type="hidden" value="${user}" name="eid" /> 
 <input type="submit" value="Home" name="op" />
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>
 <center>
 <pre>
-
-<h1>Change Password ${user}</h1>
-<form action="./AdpwdChange" method="post">
-<input type="hidden" value="${user}" name="user" />
+<h1>${msg}</h1>
+<h2>Change Password</h2>
+<form action="./spwdChange" method="post">
+<input type="hidden" value="${user}" name="eid" />
 Current Password  <input type="password" name="cpass" required="required" placeholder="123@zibran" onblur="pwdCheck()"/>
 New Password      <input type="password" name="npass1" id="npass1" required="required"  placeholder="123@zibran" />
 Confirm Password  <input type="password" name="npass2" id="npass2" required="required" placeholder="123@zibran" onblur="return validate()"/>

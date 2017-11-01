@@ -22,13 +22,12 @@
 <h1>${msg2}</h1>
 <h1>Asset Requests Are</h1>
 <table border="5">
-<%@page import="java.util.ArrayList,beans.Employee" %>
+<%@page import="java.util.ArrayList,beans.Request" %>
 <tr><th>Eid</th><th>Designation</th><th>Asset Id</th><th>Asset Name</th><th>Request date</th><th>Request Status</th><th>Action</th></tr>
 <%
-ArrayList<Employee> ar=(ArrayList<Employee>)request.getAttribute("LIST");
-for(Employee cc:ar)
+ArrayList<Request> ar=(ArrayList<Request>)request.getAttribute("LIST");
+for(Request cc:ar)
 {
-
 %>
 <tr>
 <form action="./approveReq" method="post">
@@ -38,7 +37,7 @@ for(Employee cc:ar)
 <td><%=(cc.getDesignation())%></td>
 <td><%=(cc.getAssetid())%></td>
 <td><%=(cc.getAssetname())%></td>
-<td><%=(cc.getReqdate())%></td>
+<td><%=(cc.getRequestdate())%></td>
 
 <%  int st=0;
       String status="";

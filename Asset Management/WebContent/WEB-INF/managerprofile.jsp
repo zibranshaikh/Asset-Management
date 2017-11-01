@@ -23,7 +23,7 @@
 
 <tr>
 <form action="Mupdatepassword" method="post">
-<td>${a1.eid}</td>
+<td>${a1.mid}</td>
 <td>${a1.name}</td>
 <td>${a1.address}</td>
 <td>${a1.mobile}</td>

@@ -116,7 +116,7 @@ if(m!=null)
 <center>
 <pre>
 <h1>${head}</h1>
-<h1>Welcome ${user}</h1>
+<h1>Create Employee</h1>
 <table>
  <form action="./insertEmp" method="post">
  <tr><td>Name        <input type="text" name="name" required="required" /></td></tr>

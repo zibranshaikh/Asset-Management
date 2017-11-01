@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.AdminLogin;
 import beans.Asset;
 import beans.Employee;
+import beans.Request;
 import dao.EmpDao;
 import dao.LoginDao;
 import dao.RequestDao;
@@ -69,7 +70,7 @@ public class AssetController
 	   @ModelAttribute
 	   public void addCommonObject(Model m)
 	   {
-		   m.addAttribute("head","Systango Technologies");
+		   m.addAttribute("head","Asset Management System");
 	   }
 	   
 		@RequestMapping("/check")
@@ -105,13 +106,12 @@ public class AssetController
 		}
 			
 		@RequestMapping("/AdpwdChange")
-		public ModelAndView  AdpwdChange(@RequestParam String userid,@RequestParam String npwd1)
+		public ModelAndView  AdpwdChange(@RequestParam String user,@RequestParam String npass2,@RequestParam String cpass)
 		{  
-			System.out.println(userid+" user "+npwd1+" new pass");
 			ModelAndView mv=null; 
 		 
 		   LoginDao l=new LoginDao();
-	       int y=l.changeAdPwd(userid,npwd1);
+	       int y=l.changeAdPwd(npass2,cpass,user);
 	       if(y!=0)
 	       {
 	    	   mv=new ModelAndView("Admin");//view name
@@ -120,8 +120,9 @@ public class AssetController
 	       else
 	       {
 	    	   mv=new ModelAndView("Admin");//view name
-	 	       mv.addObject("msg1","Password Not Changed");
-	         
+	 	       mv.addObject("msg","Password Not Changed because current password not matched");
+	 	         
+	 	            
 	       }
 	       
 	     return mv;
@@ -158,7 +159,7 @@ public class AssetController
          if(logas.equalsIgnoreCase("Employee"))
          {
         	
-      //  mv=new ModelAndView("EmployeeHome");//view name
+        mv=new ModelAndView("EmployeeHome");//view name
         //String z=ld.checkManager(eid);
 	   // mv.addObject("mid",z);
         mv.addObject("user",eid);
@@ -176,25 +177,31 @@ public class AssetController
         }
         return mv;
 	}
-	@RequestMapping("/changePwdjs")
+	@RequestMapping("/changeSPwdjs")
 	public ModelAndView  changepwdjs()
 	{  ModelAndView mv=null; 
 	 
-	       mv=new ModelAndView("changePwd");//view name
+	       mv=new ModelAndView("changeSPwd");//view name
  	     return mv;
 
 	}
 		
-	@RequestMapping("/pwdChange")
-	public ModelAndView  pwdChange(@RequestParam String eid,@RequestParam String npwd1)
+	@RequestMapping("/spwdChange")
+	public ModelAndView  pwdChange(@RequestParam String eid,@RequestParam String npass2,@RequestParam String cpass)
 	{  ModelAndView mv=null; 
 	 
 	   LoginDao l=new LoginDao();
-       int y=l.changePwd(eid,npwd1);
+       int y=l.changeSPwd(eid,npass2,cpass);
        if(y!=0)
        {
-    	   mv=new ModelAndView("Support");//view name
+    	   mv=new ModelAndView("changeSPwd");//view name
  	       mv.addObject("msg","Password Succesfully Changed");
+       }
+       else
+       {
+    	   mv=new ModelAndView("changeSPwd");//view name
+ 	       mv.addObject("msg","Password Not Changed because current password not matched");
+         
        }
        
      return mv;
@@ -343,7 +350,7 @@ public class AssetController
  	public ModelAndView  viewEmp()
  	{
 	   EmpDao ed=new EmpDao();
-	      List<Employee>list=ed.viewEmp();
+	      ArrayList<Employee>list=ed.viewEmp();
 	      ModelAndView mv=new ModelAndView("viewEmp");//view name
 	       mv.addObject("LIST",list);
 	       
@@ -412,7 +419,7 @@ public class AssetController
 	   if(op.equalsIgnoreCase("Approve"))
    {
 	   
-	   EmpDao l=new EmpDao();
+	  EmpDao l=new EmpDao();
       int y=l.approveReq(eid);
       if(y==1)
       {
@@ -539,14 +546,13 @@ public class AssetController
 	  return mv;
 }
   @RequestMapping("/insertRequest")
-protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("assets")String asset,@RequestParam("date") String date,@RequestParam("assetid") String aid,@RequestParam("designation") String desig,HttpServletRequest request)
+protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServletRequest request)
 {         int status=1;
   	ModelAndView mv=null;
   	RequestDao ed=new RequestDao();
   	//System.out.println(asset);
-  	HttpSession ss=request.getSession();
-  	String mid=(String)ss.getAttribute("mid");
-  	int y=ed.insertReq(eid,asset,date,aid,desig,status,mid);
+  	r.setStatus(status);
+  	int y=ed.insertReq(r);
   	System.out.println("insert request= "+y);
   	if(y==1)
   	{
@@ -568,7 +574,7 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
  	  String y=(String)ss.getAttribute("user");
  	  System.out.println("View request y="+y);
       RequestDao ld=new RequestDao();
-	ArrayList<Asset> list=ld.viewReq(y);
+	ArrayList<Request> list=ld.viewReq(y);
  	    mv=new ModelAndView("ViewRequest");
  		 mv.addObject("LIST", list);
  	  
@@ -606,11 +612,11 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
   	
   }
   
-  @RequestMapping("/changePass")
+  @RequestMapping("/changeEPass")
   protected ModelAndView newpass()
   {
   	
-  	ModelAndView mv=new ModelAndView("changePassword");
+  	ModelAndView mv=new ModelAndView("changeEPassword");
   	
   	return mv;
   	
@@ -618,16 +624,16 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
   }
   
   
-  @RequestMapping("/changePassword")
-  protected ModelAndView chndpwd(@RequestParam("current")String current,@RequestParam("new") String New,@RequestParam("confirm")String confirm )
+  @RequestMapping("/changeEPassword")
+  protected ModelAndView chndpwd(@RequestParam("cpass")String cpass,@RequestParam("npass2") String npass2,@RequestParam("eid")String eid )
   {
   	ModelAndView mv=null;
   	
   	 EmpDao ed=new EmpDao();
-  	 int y=ed.chngPass(current,New,confirm);
+  	 int y=ed.chngEPass(cpass,npass2,eid);
   	 if(y==1)
   	 {
-  		 mv=new ModelAndView("changePassword");
+  		 mv=new ModelAndView("changeEPassword");
   		 mv.addObject("change", "Password Change");
   		 
   		 
@@ -681,25 +687,19 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
  	public ModelAndView opreation(HttpServletRequest request)
  	{
  	ModelAndView mv=null;
- 	EmpDao ed=new EmpDao();
- 	HttpSession ss=request.getSession();
- 	String user1=(String)ss.getAttribute("user");
- 	Employee a1=new Employee();
- 	a1=ed.Mupdatepassword(user1);
  	mv=new ModelAndView("ManagerupdatePassword");
- 	mv.addObject("LIST", a1);
  	return mv;
  	}
    
    @RequestMapping("/Manageropreation")
- 	public ModelAndView confirmupdate(@ModelAttribute("Employee") Employee a1)
+ 	public ModelAndView confirmupdate(@RequestParam String mid,@RequestParam String npass2,@RequestParam String cpass)
  	{
  		ModelAndView mv=null;
  		
      	EmpDao ed=new EmpDao();
 // 		HttpSession ss=request.getSession();
 // 		String user1=(String)ss.getAttribute("user");
- 		int y=ed.Managerupdateinsert(a1);
+ 		int y=ed.Managerupdateinsert(mid,npass2,cpass);
  		if(y!=0)
  		{
  			mv=new ModelAndView("ManagerupdatePassword");
@@ -708,9 +708,9 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
  		else
  		{
  			mv=new ModelAndView("ManagerupdatePassword");	
- 		mv.addObject("msg", "try again");
- 		}
- 		return mv;
+ 			   mv.addObject("msg","Password Not Changed because current password not matched");
+ 	         
+ 	       }	return mv;
  	}
    
    @RequestMapping("/Managercreate")	
@@ -722,12 +722,13 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
  	}
  	@RequestMapping("/InsertManager")
  	//public ModelAndView create(@RequestParam String uid, @RequestParam String name,@RequestParam String salary,@RequestParam String mobile,@RequestParam String email) 
- 	public ModelAndView McreateR(@ModelAttribute("Employee") Employee e1)
+ 	public ModelAndView McreateR(@ModelAttribute("Request") Request r)
  	{
  	        ModelAndView mv=null;
- 	        
+ 	        int status=2;
  	        EmpDao ed=new EmpDao();
- 			int y=ed.MinsertRequest(e1);
+ 	        r.setStatus(status);
+ 			int y=ed.MinsertRequest(r);
  			if(y!=0)
  			{
  				mv=new ModelAndView("ManagerCreateRequest");
@@ -745,7 +746,7 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
  	{
  		ModelAndView mv=null;
  		EmpDao ed=new EmpDao();
- 		ArrayList<Employee> list=ed.MviewRequest();
+ 		ArrayList<Request> list=ed.MviewRequest();
  		mv=new ModelAndView("ManagerViewRequest");
  		mv.addObject("LIST", list);
  	return mv;		
@@ -755,7 +756,7 @@ protected ModelAndView insertReq(@RequestParam("id") String eid,@RequestParam("a
  	{
  		ModelAndView mv=null;
  		EmpDao ed=new EmpDao();
- 		ArrayList<Employee> list=ed.viewmanagerasset();
+ 		ArrayList<Request> list=ed.viewmanagerasset();
  		mv=new ModelAndView("viewmanagerasset");
  		mv.addObject("LIST", list);
  	return mv;			

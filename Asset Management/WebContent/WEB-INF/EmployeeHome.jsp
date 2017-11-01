@@ -9,8 +9,7 @@
 <center>
 <p1 align="right">
  <form action="./empop" method="post">
-<input type="hidden" value="${user}" name="userid" /> 
-<input type="submit" value="Home" name="op" />
+<input type="hidden" value="${user}" name="userid" />
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>
@@ -21,7 +20,7 @@
 <a href="ViewRequest">View My Request</a></br></br>
 <a href="AssetTransfer">Transfer Asset</a></br></br>
 <a href="ViewProfile">Profile</a></br></br>
-<a href="changePass">Change Password</a></br></br>
+<a href="changeEPass">Change Password</a></br></br>
 
 </body>
 </center>

@@ -9,8 +9,7 @@
 <body>
 <p1 align="right">
  <form action="./supop" method="post">
-<input type="hidden" value="${user}" name="eid" /> 
-<input type="submit" value="Home" name="op" />
+<input type="hidden" value="${user}" name="eid" />
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>
@@ -22,7 +21,7 @@
 <p1 align="left">
 <h2><a href="./viewRequest">View Request</a></h2>
 <h2><a href="./reports">View Reports</a></h2>
-<h2><a href="./changePwdjs">Change Password</a></h2>
+<h2><a href="./changeSPwdjs">Change Password</a></h2>
 </p1>
 </pre>
 

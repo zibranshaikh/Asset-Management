@@ -10,7 +10,6 @@
 <p1 align="right">
  <form action="./managerop" method="post">
 <input type="hidden" value="${user}" name="userid" /> 
-<input type="submit" value="Home" name="op" />
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>

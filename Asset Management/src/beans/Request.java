@@ -13,8 +13,23 @@ public class Request {
 		String assetname;
 		String requestdate;
 		String designation;
+		String eid;
+		String mid;
 		   int status;
 		   
+		   
+		public String getMid() {
+			return mid;
+		}
+		public void setMid(String mid) {
+			this.mid = mid;
+		}
+		public String getEid() {
+			return eid;
+		}
+		public void setEid(String eid) {
+			this.eid = eid;
+		}
 		public String getRequestid() {
 			return requestid;
 		}

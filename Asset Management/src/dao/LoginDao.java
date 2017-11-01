@@ -131,37 +131,63 @@ public class LoginDao {
 	}
 
 
-	public int changePwd(String eid, String pwd) {
+	public int changeSPwd(String eid, String npass2,String cpass) {
 	int x=0;
-	
+	String a=null;
 	AssetController ac=new AssetController();
 	Session ss= ac.session();
+	String hql1="select password from Employee where eid=:a";
+    Query q1=ss.createQuery(hql1);
+    q1.setString("a",eid);
+	Iterator it=q1.iterate();
+	while(it.hasNext())
+	{
+		 a=(String) it.next();
+	}
+   
+	if(a.equals(cpass))
+	{
+		
     String hql="update Employee set password=:b where eid=:a";
     Query q=ss.createQuery(hql);
-    q.setString("b",pwd);
+    q.setString("b",npass2);
     q.setString("a",eid);
      x=q.executeUpdate();
 
-    
+	}
 		
 		ss.close();
 	
 		return x;
 	}
 	
-	public int changeAdPwd(String userid, String pwd) {
+	public int changeAdPwd(String npass2, String cpass,String user) {
+		
 		int x=0;
+		String a=null;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-	    String hql="update AdminLogin set password=:b where userid=:a";
+		String hql1="select password from AdminLogin where userid=:a";
+	    Query q1=ss.createQuery(hql1);
+	    q1.setString("a",user);
+		Iterator it=q1.iterate();
+		while(it.hasNext())
+		{
+			 a=(String) it.next();
+		}
+	   
+		if(a.equals(cpass))
+		{
+		String hql="update AdminLogin set password=:b where userid=:a";
 	    Query q=ss.createQuery(hql);
-	    q.setString("b",pwd);
-	    q.setString("a",userid);
-	     x=q.executeUpdate();
-
-	     Transaction tt=ss.beginTransaction();
-			
-			tt.commit();
+	    q.setString("b",npass2);
+	    q.setString("a",user);
+	    Transaction tt=ss.beginTransaction();
+		x=q.executeUpdate();
+		tt.commit();
+		
+		}
+	     
 			ss.close();
 	
 			return x;

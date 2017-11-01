@@ -17,10 +17,10 @@
 <h1>Requested Assets</h1>
 <table border="3">
 <tr><th>AssetID</th><th>AssetName</th><th>RequestDate</th><th>Designation</th><th>Status</th></tr>
-<%@page import="java.util.ArrayList,beans.Asset" %>
+<%@page import="java.util.ArrayList,beans.Request" %>
 <%
-ArrayList<Asset> ar=(ArrayList)request.getAttribute("LIST");
-for(Asset cc:ar)
+ArrayList<Request> ar=(ArrayList<Request>)request.getAttribute("LIST");
+for(Request cc:ar)
 {
 %>
 <tr> 

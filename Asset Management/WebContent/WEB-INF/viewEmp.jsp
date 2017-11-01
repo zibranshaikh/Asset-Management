@@ -36,6 +36,7 @@ for(Employee cc:ar)
     <%
     }
     %>
+    <input type="hidden" value="<%=cc.getMid()%>" name="" />
     <input type="hidden" value="<%=cc.getEid() %>" name="eid" />
     <td><%=cc.getName()%></td>
     <td><%=cc.getAddress()%></td>

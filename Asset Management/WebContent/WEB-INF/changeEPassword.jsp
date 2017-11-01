@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Admin Change Password</title>
+<title>Insert title here</title>
 <script type="text/javascript">
   function validate()
   {
@@ -20,27 +20,30 @@
 </script>
 
 </head>
-<body>
+<center>
 <p1 align="right">
- <form action="./adminop" method="post">
+ <form action="./empop" method="post">
 <input type="hidden" value="${user}" name="userid" /> 
 <input type="submit" value="Home" name="op" />
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>
-<center>
-<pre>
-
-<h1>Change Password ${user}</h1>
-<form action="./AdpwdChange" method="post">
-<input type="hidden" value="${user}" name="user" />
+<h3>${change}</h3>
+<h3>${chng}</h3>
+<h1>Change Password</h1>
+<body>
+<form action="changeEPassword" method="post">
+<table>
+<input type="hidden" value="${user}" name="eid" />
 Current Password  <input type="password" name="cpass" required="required" placeholder="123@zibran" onblur="pwdCheck()"/>
 New Password      <input type="password" name="npass1" id="npass1" required="required"  placeholder="123@zibran" />
 Confirm Password  <input type="password" name="npass2" id="npass2" required="required" placeholder="123@zibran" onblur="return validate()"/>
                           
-             <input type="submit" value="Change Password" /><!-- button to submit the field and go to adeditcontroller -->
+             <input type="submit" value="ChangePassword" /><!-- button to submit the field and go to adeditcontroller -->
+</table>
+
 </form>
-</pre>
 </center>
+
 </body>
 </html>

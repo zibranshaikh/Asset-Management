@@ -43,17 +43,17 @@
 <body>
 <pre>
 <form action="./insertRequest" method="post">
-EId        <input type="text" value="<%=session.getAttribute("user")%>" name="id">
+EId        <input type="text" value="<%=session.getAttribute("user")%>" name="eid">
 MID        <input type="text" value="<%=session.getAttribute("mid")%>" name="mid">
-Asset Name<select name="assets" id="assets">
+Asset Name<select name="assetname" id="assets">
           <option value="laptop">Laptop</option>
           <option value="mouse">Mouse</option>
           <option value="datacard">Data Card</option>
           <option value="headphone">Headphones</option>
           <option value="pendrive">Pen drive</option>
           </select>
-Date      <input type="date" name="date"/>
-Assetid   <input type="text" id="assetid" name="assetid"/>
+Date      <input type="date" name="requestdate"/>
+Asset Id   <input type="text" id="assetid" name="assetid"/>
 Designation<select name="designation">
            <option>Manager</option>
            <option>Developer</option>
