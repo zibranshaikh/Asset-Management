@@ -19,7 +19,7 @@
 </center>
 <pre>
 <p1 align="left">
-<h2><a href="./viewRequest">View Request</a></h2>
+<h2><a href="./viewRequest">View Asset Request</a></h2>
 <h2><a href="./reports">View Reports</a></h2>
 <h2><a href="./changeSPwdjs">Change Password</a></h2>
 </p1>

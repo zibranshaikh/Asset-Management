@@ -42,24 +42,40 @@
 <h1>Asset Request</h1>
 <body>
 <pre>
+<%@page import="beans.Employee" %>
 <form action="./insertRequest" method="post">
-EId        <input type="text" value="<%=session.getAttribute("user")%>" name="eid">
-MID        <input type="text" value="<%=session.getAttribute("mid")%>" name="mid">
-Asset Name<select name="assetname" id="assets">
-          <option value="laptop">Laptop</option>
-          <option value="mouse">Mouse</option>
-          <option value="datacard">Data Card</option>
-          <option value="headphone">Headphones</option>
-          <option value="pendrive">Pen drive</option>
-          </select>
-Date      <input type="date" name="requestdate"/>
-Asset Id   <input type="text" id="assetid" name="assetid"/>
-Designation<select name="designation">
-           <option>Manager</option>
-           <option>Developer</option>
-           <option>SupportTeam</option>
-           </select>
-          <input type="submit" value="Request">
+ <%
+Employee cc=(Employee)request.getAttribute("E");
+
+ if(cc.getDesignation().equalsIgnoreCase("Manager"))
+     {
+  %>
+Employee ID        <input type="text" value="<%=(cc.getMid2())%>" name="mid2" readonly />
+Support ID         <input type="text" value="<%=(cc.getSid())%>" name="sid" readonly />
+<%
+}
+%>
+     <% if(cc.getDesignation().equalsIgnoreCase("Employee"))
+     {
+  %>
+Employee ID    <input type="text" value="<%=(cc.getEid1())%>" name="eid1" readonly />
+Manager ID     <input type="text" value="<%=(cc.getMid1())%>" name="mid1" readonly />
+              <input type="hidden" value="<%=(cc.getSid())%>" name="sid" readonly />
+<%
+}
+%>
+Asset Name     <select name="assetname" id="assets">
+               <option>select</option>
+               <option value="laptop">Laptop</option>
+               <option value="mouse">Mouse</option>
+               <option value="datacard">Data Card</option>
+               <option value="headphone">Headphones</option>
+               <option value="pendrive">Pen drive</option>
+               </select>
+Asset Id       <input type="text" id="assetid" name="assetid"/>
+Designation    <input type="text" name="designation" value="<%=cc.getDesignation()%>" readonly>
+               
+               <input type="submit" value="Request">
 </body>
 </form>
 </pre>

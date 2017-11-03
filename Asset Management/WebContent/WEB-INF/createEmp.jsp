@@ -132,17 +132,17 @@ if(m!=null)
                     </select></td></tr>
                     
 <tr id="Employee"><td>
-EMPLOYEE ID  <input type="text" name="eid" id="eid" placeholder="E101" maxlength="15" required="required" />
+EMPLOYEE ID  <input type="text" name="eid1" id="eid" placeholder="E101" value="0" maxlength="15" required="required" />
 </td></tr>
 <tr id="Manager"><td>
-Manager ID   <select name="mid" id="mid" />
+Manager ID   <select name="mid1" id="mid" />
                   </select>
 </td></tr> 
 <tr id="ManagerId"><td>
-Manager ID  <input type="text" name="mid" id="mid" placeholder="M101" maxlength="15" required="required" />
+Manager ID  <input type="text" name="mid2" id="mid" value="0" placeholder="M101" maxlength="15" required="required" />
 </td></tr>
 <tr id="Support"><td>
-EMPLOYEE ID   <input type="text" name="eid" id="eid" placeholder="S101" maxlength="15" required="required" />
+EMPLOYEE ID   <input type="text" name="eid2" id="eid" value="0" placeholder="S101" maxlength="15" required="required" />
 </td></tr>
 <tr id="SupportId"><td>
 Support ID <select name="sid" id="sid" />

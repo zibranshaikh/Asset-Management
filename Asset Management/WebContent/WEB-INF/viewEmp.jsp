@@ -13,7 +13,7 @@
 <h1>${msg1}</h1>
 </font>
 <table border="1">
-<tr><th>EID</th><th>Name</th><th>Address</th><th>Mobile</th><th>MailID</th><th>Password</th><th>Designation</th><th>Support Id</th><th></th><th>Date of Joining</th><th>Status</th><th>Action</th></tr>
+<tr><th>EID</th><th>Name</th><th>Address</th><th>MailID</th><th>Mobile</th><th>Password</th><th>Designation</th><th>Support Id</th><th>Date of Joining</th><th>Status</th><th>Action</th></tr>
 
 <%@page import="java.util.ArrayList,beans.Employee" %>
 <%
@@ -24,20 +24,30 @@ for(Employee cc:ar)
 <tr>
      <form action="./empAD" method="post">
     <%if(cc.getDesignation().equalsIgnoreCase("Manager"))
-    	{ 
-    	%>
-    	<td><%=(cc.getMid())%></td>
-    <%
-    } 
-    else
+    	{%>
+    	<td><%=(cc.getMid2())%></td>
+    <input type="hidden" value="<%=cc.getMid2()%>" name="eid" />
+      <%
+    }
+    else if(cc.getDesignation().equalsIgnoreCase("Employee"))
     {
     %>
-    <td><%=(cc.getEid())%></td>
+    <td><%=(cc.getEid1())%></td>
+    <input type="hidden" value="<%=cc.getEid1() %>" name="eid" />
+    
+    <%
+    }
+ else if(cc.getDesignation().equalsIgnoreCase("Support Team"))
+    { 
+    %>
+    <td><%=(cc.getEid2())%></td>
+    <input type="hidden" value="<%=cc.getEid2() %>" name="eid" />
+    
     <%
     }
     %>
-    <input type="hidden" value="<%=cc.getMid()%>" name="" />
-    <input type="hidden" value="<%=cc.getEid() %>" name="eid" />
+  
+ 
     <td><%=cc.getName()%></td>
     <td><%=cc.getAddress()%></td>
     <td><%=cc.getEmail()%></td>
@@ -54,7 +64,7 @@ for(Employee cc:ar)
     else
     {
     %>
-    <td>Not Available<td>
+    <td>Not Available</td>
     <%
     } 
     %>
@@ -84,16 +94,6 @@ for(Employee cc:ar)
 %>
 
 </table>
-<!--  //<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:forEach items="${LIST}" var="e">
-<tr>  
-   <td>${e.eid}</td>
-   <td>${e.name}</td>
-   <td>${e.address}</td>
-   <td>${e.email}</td>
-   <td>${e.mobile}</td>
-</tr>
-</c:forEach>
--->
+
 </center>
 </pre>

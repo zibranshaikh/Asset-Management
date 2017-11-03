@@ -18,12 +18,7 @@
 <form action="./empcheck" method="post">
 User Name <input type="text" name="eid" />
 Password  <input type="password" name="pwd" />
-Login As     <select name="logas">
-                     <option>Manager</option>
-                     <option>Employee</option>
-                     <option>Support Team</option>
-          </select>
-         <input type="submit" value="login" />
+        <input type="submit" value="login" />
 </form>
 </pre>
 </center>

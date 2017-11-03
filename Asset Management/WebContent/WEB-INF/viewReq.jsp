@@ -20,20 +20,35 @@
 <h1>${msg}</h1>
 <h1>${msg1}</h1>
 <h1>${msg2}</h1>
-<h1>Asset Requests Are</h1>
+<h1>Asset Requests</h1>
 <table border="5">
 <%@page import="java.util.ArrayList,beans.Request" %>
-<tr><th>Eid</th><th>Designation</th><th>Asset Id</th><th>Asset Name</th><th>Request date</th><th>Request Status</th><th>Action</th></tr>
+<tr><th>Employee ID </th><th>Mid/Sid<th>Designation</th><th>Asset Id</th><th>Asset Name</th><th>Request date</th><th>Request Status</th><th>Action</th></tr>
 <%
 ArrayList<Request> ar=(ArrayList<Request>)request.getAttribute("LIST");
 for(Request cc:ar)
 {
 %>
-<tr>
 <form action="./approveReq" method="post">
 <tr>
-<td><%=(cc.getEid())%></td>
-<input type="hidden" value="<%=(cc.getEid())%>" name="eid" />
+<%
+  if(cc.getDesignation().equalsIgnoreCase("Manager"))
+     {
+  %>
+ <td>       <input type="text" value="<%=(cc.getMid2())%>" name="mid2" readonly /></td>
+ <td>       <input type="text" value="<%=(cc.getSid())%>" name="sid" readonly /></td>
+<%
+}
+%>
+     <% if(cc.getDesignation().equalsIgnoreCase("Employee"))
+     {
+  %>
+ <td>       <input type="text" value="<%=(cc.getEid1())%>" name="eid1" readonly /></td>
+ <td>       <input type="text" value="<%=(cc.getMid1())%>" name="mid1" readonly /></td>
+ <%
+}
+%>
+ 
 <td><%=(cc.getDesignation())%></td>
 <td><%=(cc.getAssetid())%></td>
 <td><%=(cc.getAssetname())%></td>
@@ -42,18 +57,17 @@ for(Request cc:ar)
 <%  int st=0;
       String status="";
       st=cc.getStatus(); 
-      if(st==2)
+      if(st==1)
       {
     	  status="New Request";
       }
-      else if(st==4)
+      else if(st==3)
       {
     	  status="Approved";
       }
       %>
     <td><%=status%></td>  
-<td><input type="submit" value="Approve" name="op" />
-        <input type="submit" value="Reject" name="op" />
+<td><input type="submit" value="Approve" name="op" /><input type="submit" value="Reject" name="op" />
 </td>
 </tr>
 </form>

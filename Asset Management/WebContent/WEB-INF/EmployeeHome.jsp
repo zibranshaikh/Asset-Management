@@ -13,7 +13,8 @@
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>
-<h1>Welcome Employee ${user}</h1>
+<h1>Employee Home</h1>
+<h1>Welcome ${user}</h1>
 <body>
 <a href="AssetRequest">Create Asset Request</a></br></br>
 <a href="ViewAsset">My Assets</a></br></br>

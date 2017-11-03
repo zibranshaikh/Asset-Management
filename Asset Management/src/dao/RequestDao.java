@@ -44,12 +44,10 @@ public class RequestDao {
 	public ArrayList<Request> viewReq(String y)
 	{   
 	
-		int status=1;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-		Criteria crit = ss.createCriteria(Employee.class);
-		crit.add(Restrictions.eq("status",status));
-		crit.add(Restrictions.eq("eid",y));
+		Criteria crit = ss.createCriteria(Request.class);
+		crit.add(Restrictions.eq("eid1",y));
 	    ArrayList<Request> list = (ArrayList<Request>) crit.list();
 		ss.close();
 		

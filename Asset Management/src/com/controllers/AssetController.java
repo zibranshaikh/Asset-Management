@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -140,23 +141,23 @@ public class AssetController
   	}
    
 	@RequestMapping("/empcheck")
-	public ModelAndView checkemp(@RequestParam String eid,@RequestParam String pwd,@RequestParam String logas)
+	public ModelAndView checkemp(@RequestParam String eid,@RequestParam String pwd)
 {      ModelAndView mv=null;
       
-      System.out.println(eid+" "+pwd+" "+logas);
+      System.out.println(eid+" "+pwd);
       int y=0;
         LoginDao ld=new LoginDao();
-         y=ld.checkEmp(eid,pwd,logas);
+         y=ld.checkEmp(eid,pwd);
          
          System.out.println("y in empcheckdao"+y);
         if(y!=0)
         {
-        if(logas.equalsIgnoreCase("Support Team"))
+        if(eid.contains("S"))
          {
         mv=new ModelAndView("Support");//view name
         mv.addObject("user",eid);
         }
-         if(logas.equalsIgnoreCase("Employee"))
+         if(eid.contains("E"))
          {
         	
         mv=new ModelAndView("EmployeeHome");//view name
@@ -164,7 +165,7 @@ public class AssetController
 	   // mv.addObject("mid",z);
         mv.addObject("user",eid);
         }
-         if(logas.equalsIgnoreCase("Manager"))
+         if(eid.contains("M"))
          {
         mv=new ModelAndView("managerhome");//view name
         mv.addObject("user",eid);
@@ -230,6 +231,15 @@ public class AssetController
         //c.setEmail(email);
         
         EmpDao l=new EmpDao();
+        if(c.getDesignation().equalsIgnoreCase("Manager"))
+        {
+        c.setMid1("0");
+        }
+        if(c.getDesignation().equalsIgnoreCase("Support Team"))
+        {
+        c.setMid1("0");
+        c.setSid("0");
+        }
         int y=l.insertEmp(c);
         if(y==1)
         { 
@@ -237,21 +247,21 @@ public class AssetController
          {
         	 String email=c.getEmail();
         	 String subject="Systango Employee Account Creation";
-        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid();
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
          sendMail(email,subject,message);
          }
          else if(c.getDesignation().equalsIgnoreCase("Manager"))
          {
         	 String email=c.getEmail();
         	 String subject="Systango Employee Account Creation";
-        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid()+" Your password is :  "+c.getPassword()+" Your Support id is : "+c.getSid();       	 
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Support id is : "+c.getSid();       	 
          sendMail(email,subject,message);
          }
          else if(c.getDesignation().equalsIgnoreCase("Support Team"))
          {
         	 String email=c.getEmail();
         	 String subject="Systango Employee Account Creation";
-        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid()+" Your password is :  "+c.getPassword(); 	 
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword(); 	 
          sendMail(email,subject,message);
          }
          mv=new ModelAndView("createEmp");//view name
@@ -320,9 +330,9 @@ public class AssetController
 	      }
    
       
-   @RequestMapping("/UpdateEmp")
-   //public(@RequestParam int id,@RequestParam String name,@RequestParam String address,@RequestParam String mobile)
- 	public ModelAndView updateEmp(@ModelAttribute("Employee") Employee c,@RequestParam String eid1)
+    @RequestMapping("/UpdateEmp")
+    //public(@RequestParam int id,@RequestParam String name,@RequestParam String address,@RequestParam String mobile)
+ 	public ModelAndView updateEmp(@ModelAttribute("Employee") Employee c)
  	{
        ModelAndView mv=null;
        //Customer c=new Customer();
@@ -332,8 +342,9 @@ public class AssetController
        //c.setMobile(mobile);
        //c.setEmail(email);
        
+       System.out.println("sid in updateemp "+c.getEid2());
        EmpDao l=new EmpDao();
-       int y=l.updateEmp(c,eid1);
+       int y=l.updateEmp(c);
        if(y==1)
        {
     	   EmpDao ed=new EmpDao();
@@ -349,18 +360,19 @@ public class AssetController
    @RequestMapping("/viewEmp")
  	public ModelAndView  viewEmp()
  	{
-	   EmpDao ed=new EmpDao();
+	      EmpDao ed=new EmpDao();
 	      ArrayList<Employee>list=ed.viewEmp();
 	      ModelAndView mv=new ModelAndView("viewEmp");//view name
-	       mv.addObject("LIST",list);
+	      mv.addObject("LIST",list);
 	       
       return mv;
 
  	}
 
-   @RequestMapping("/empAD")
+   @RequestMapping(value="/empAD",method = RequestMethod.POST)
 	public ModelAndView  empAD(@RequestParam String eid,@RequestParam String op)
-	{  ModelAndView mv=null; 
+	{  
+	   ModelAndView mv=null; 
 	   if(op.equals("Activate"))
     {
 	   
@@ -391,9 +403,9 @@ public class AssetController
        }
 	   if(op.equalsIgnoreCase("Update"))
 	   {     
+		   System.out.println("eid in update "+eid);
 		   EmpDao ed=new EmpDao();
-		      Employee e=new Employee();
-		      e=ed.viewEmpUpdate(eid);
+		      Employee e=ed.viewEmpUpdate(eid);
 		      mv=new ModelAndView("updateEmp");//view name
 		       mv.addObject("E",e);
 	   }
@@ -404,7 +416,7 @@ public class AssetController
  	public ModelAndView  viewRequest()
  	{
 	   EmpDao rd=new EmpDao();
-	      ArrayList<Employee>list=rd.viewRequest();
+	      ArrayList<Request>list=rd.viewRequest();
 	      ModelAndView mv=new ModelAndView("viewReq");//view name
 	       mv.addObject("LIST",list);
       
@@ -424,7 +436,7 @@ public class AssetController
       if(y==1)
       {
    	   EmpDao rd=new EmpDao();
-	      ArrayList<Employee>list=rd.viewRequest();
+	      ArrayList<Request>list=rd.viewRequest();
 	       mv=new ModelAndView("viewReq");//view name
 	       mv.addObject("LIST",list);
 	       mv.addObject("msg2","Request Approved ");
@@ -437,7 +449,7 @@ public class AssetController
      // if(y==1)
       {
     	  EmpDao rd=new EmpDao();
-	      ArrayList<Employee>list=rd.viewRequest();
+	      ArrayList<Request>list=rd.viewRequest();
 	       mv=new ModelAndView("viewReq");//view name
 	       mv.addObject("LIST",list);
 	       mv.addObject("msg1","Request Reject for Employee");
@@ -540,30 +552,44 @@ public class AssetController
 	     return mv;
     }
   @RequestMapping("/AssetRequest")
-	protected ModelAndView assetReq() {
+	protected ModelAndView assetReq(HttpServletRequest request) {
+     
+	  HttpSession ss=request.getSession();
+	  String eid=(String) ss.getAttribute("user");
+	   EmpDao ed=new EmpDao();
+	   Employee e=ed.viewEmpUpdate(eid);
 	  ModelAndView mv=new ModelAndView("createRequest");
-	 mv.addObject("msg", "Created Succesfully");
+	  mv.addObject("E", e);
 	  return mv;
 }
   @RequestMapping("/insertRequest")
 protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServletRequest request)
-{         int status=1;
-  	ModelAndView mv=null;
-  	RequestDao ed=new RequestDao();
-  	//System.out.println(asset);
-  	r.setStatus(status);
-  	int y=ed.insertReq(r);
-  	System.out.println("insert request= "+y);
+{
+
+	ModelAndView mv=null;
+  	RequestDao rd=new RequestDao();
+
+  	int y=rd.insertReq(r);
+  	 
+  	HttpSession ss=request.getSession();
+	  String eid=(String) ss.getAttribute("user");
+	   EmpDao ed=new EmpDao();
+	 
   	if(y==1)
   	{
-  	  mv=new ModelAndView("createRequest");
+  	   Employee e=ed.viewEmpUpdate(eid);
+		mv=new ModelAndView("createRequest");
 		  mv.addObject("msg", "Request Sent To Manager");
-		 
+		  mv.addObject("E", e);
+				 
 		  
   	}
   	else {
-  		mv=new ModelAndView("createRequest");
+  	   Employee e=ed.viewEmpUpdate(eid);
+		mv=new ModelAndView("createRequest");
   		mv.addObject("msg", "Request not sent ");
+  	  mv.addObject("E", e);
+  	
   	}
   	return mv;
 }
@@ -572,7 +598,6 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
  	  ModelAndView mv=null;
  	  HttpSession ss=request.getSession();
  	  String y=(String)ss.getAttribute("user");
- 	  System.out.println("View request y="+y);
       RequestDao ld=new RequestDao();
 	ArrayList<Request> list=ld.viewReq(y);
  	    mv=new ModelAndView("ViewRequest");
@@ -580,7 +605,14 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
  	  
  	  return mv;
    }
+  
+@RequestMapping("/CancelRequest")
+protected ModelAndView CancelRequest(HttpServletRequest request)
+{
+	ModelAndView mv=null;
 	
+    return mv;
+}
   @RequestMapping("/ViewProfile")
   protected ModelAndView viewProfile(HttpServletRequest request)
   {

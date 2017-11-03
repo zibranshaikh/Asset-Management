@@ -24,7 +24,7 @@ for(Employee cc:ar)
 	%>
 <pre>
 <form action="UpdateEmp" method="post">
- ID        <input type="text" value="<%=(cc.getEid())%>" name="eid" readonly />
+ ID        <input type="text" value="<%=(cc.getEid1())%>" name="eid" readonly />
  Name      <input type="text" value="<%=(cc.getName())%>" name="name" />
  Address   <input type="text" value="<%=(cc.getAddress())%>" name="address" />
  Email     <input type="email" value="<%=(cc.getEmail())%>" name="email" />

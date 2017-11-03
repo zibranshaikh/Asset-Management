@@ -13,6 +13,9 @@
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>
+<center>
+<h1>Manager Home</h1>
+<h1>Welcome ${user}</h1></center>
 <a href ="./viewa">profile</a>
 <br/><br/>
 <a href ="./mpendingrequest">Pending request</a>
