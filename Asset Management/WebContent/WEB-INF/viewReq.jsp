@@ -23,7 +23,7 @@
 <h1>Asset Requests</h1>
 <table border="5">
 <%@page import="java.util.ArrayList,beans.Request" %>
-<tr><th>Employee ID </th><th>Mid/Sid<th>Designation</th><th>Asset Id</th><th>Asset Name</th><th>Request date</th><th>Request Status</th><th>Action</th></tr>
+<tr><th>Employee ID </th><th>Mid/Sid<th>Designation</th><th>Asset Id</th><th>Asset Name</th><th>Request ID</th><th>Request date</th><th>Request Status</th><th>Action</th></tr>
 <%
 ArrayList<Request> ar=(ArrayList<Request>)request.getAttribute("LIST");
 for(Request cc:ar)
@@ -49,11 +49,11 @@ for(Request cc:ar)
 }
 %>
  
-<td><%=(cc.getDesignation())%></td>
-<td><%=(cc.getAssetid())%></td>
+<td><input type="text" value="<%=(cc.getDesignation())%>" name="designation" readonly /></td>
+<td><input type="text" value="<%=(cc.getAssetid())%>" name="assetid" readonly /></td>
 <td><%=(cc.getAssetname())%></td>
+<td><input type="text" value="<%=(cc.getRequestid())%>" name="requestid" readonly /></td>
 <td><%=(cc.getRequestdate())%></td>
-
 <%  int st=0;
       String status="";
       st=cc.getStatus(); 

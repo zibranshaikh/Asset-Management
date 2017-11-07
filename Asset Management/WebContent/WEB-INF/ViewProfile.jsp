@@ -22,10 +22,10 @@
 
 <%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <c:forEach items="${LIST}" var="e">
-
+<h1>${msg}</h1>
 <tr>
 <form action="./controller" method="post">
-    <td>${e.eid}</td>
+    <td>${e.eid1}</td>
     <td>${e.name}</td>
     <td>${e.address}</td>
     <td>${e.mobile}</td>

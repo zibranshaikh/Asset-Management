@@ -20,7 +20,6 @@
 				data:data,
 				type:'get',
 				success:function(result){
-					alert(result);
 					$("#assetid").val(result);
 				}
 				
@@ -30,6 +29,18 @@
 		
 	});
 
+</script>
+<script type="text/javascript">
+  function validate()
+  {
+	  var empDes=document.getElementById("assets").value;
+	  if(empDes.match("Select"))
+		  {
+		  alert("Please Select Asset");
+		  return false;
+		  }
+  return true;
+  }
 </script>
 <p1 align="right">
  <form action="./empop" method="post">
@@ -64,15 +75,15 @@ Manager ID     <input type="text" value="<%=(cc.getMid1())%>" name="mid1" readon
 <%
 }
 %>
-Asset Name     <select name="assetname" id="assets">
-               <option>select</option>
+Asset Name     <select name="assetname" id="assets" onblur="return validate()" >
+               <option>Select</option>
                <option value="laptop">Laptop</option>
                <option value="mouse">Mouse</option>
-               <option value="datacard">Data Card</option>
-               <option value="headphone">Headphones</option>
-               <option value="pendrive">Pen drive</option>
-               </select>
-Asset Id       <input type="text" id="assetid" name="assetid"/>
+               <option value="Data card">Data Card</option>
+               <option value="Headphones">Headphones</option>
+               <option value="Pen Drive">Pen drive</option>
+                     </select>
+Asset Id       <input type="text" id="assetid" name="assetid" readonly />
 Designation    <input type="text" name="designation" value="<%=cc.getDesignation()%>" readonly>
                
                <input type="submit" value="Request">

@@ -11,7 +11,7 @@ public class Request {
 	    String requestid;
   		String assetid;
 		String assetname;
-		String requestdate;
+		transient String requestdate;
 		String designation;
 		String eid1;
 		String eid2;

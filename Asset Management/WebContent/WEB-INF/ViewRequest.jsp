@@ -35,6 +35,7 @@ for(Request cc:ar)
 %>
 <tr> 
 <form action="./CancelRequest" method="post">
+    <input type="hidden" value="<%=cc.getRequestid()%>" name="requestid" />
     <td><%=cc.getRequestid()%></td>
     <td><%=cc.getRequestdate()%></td>
     <td><%=cc.getAssetid()%></td>

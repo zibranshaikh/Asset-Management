@@ -23,15 +23,17 @@
 <body>
 <p1 align="right">
  <form action="./adminop" method="post">
-<input type="hidden" value="${user}" name="userid" /> 
-<input type="submit" value="Home" name="op" />
-<input type="submit" value="Logout" name="op" />
+<input type="hidden" value="${user}" name="userid" />
+<p1 align="left"> 
+<input type="submit" value="Home" name="op" /></p1>
+<p1 align="right">
+<input type="submit" value="Logout" name="op" /></p1>
 </form>
 </p1>
 <center>
 <pre>
 
-<h1>Change Password ${user}</h1>
+<h1>Change Password </h1>
 <form action="./AdpwdChange" method="post">
 <input type="hidden" value="${user}" name="user" />
 Current Password  <input type="password" name="cpass" required="required" placeholder="123@zibran" onblur="pwdCheck()"/>

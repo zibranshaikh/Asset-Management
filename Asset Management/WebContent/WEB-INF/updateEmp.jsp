@@ -20,7 +20,7 @@
  <table border="3">
  
 <%@page import="beans.Employee" %>
- <form action="./UpdateEmp" method="post">
+ <form action="./UpdateAEmp" method="post">
  <%
 Employee cc=(Employee)request.getAttribute("E");
  

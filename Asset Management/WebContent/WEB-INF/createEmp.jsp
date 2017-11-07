@@ -95,6 +95,19 @@ $(document).ready(function(){
 	});
 
 </script>
+<script type="text/javascript">
+  function validate()
+  {
+	  var empDes=document.getElementById("empDes").value;
+	  if(empDes.match("Select"))
+		  {
+		  alert("Please Select Employee Designation");
+		  return false;
+		  }
+  return true;
+  }
+</script>
+
 </head>
 </html>
 <center>
@@ -114,7 +127,6 @@ if(m!=null)
 </form>
 </p1>
 <center>
-<pre>
 <h1>${head}</h1>
 <h1>Create Employee</h1>
 <table>
@@ -124,7 +136,7 @@ if(m!=null)
  <tr><td>Email       <input type="email" name="email" required="required" /></td></tr>
  <tr><td>Mobile      <input type="text" name="mobile" required="required" /></td></tr>
  <tr><td>Password    <input type="password" name="password" required="required" /></td></tr>
- <tr><td>Designation    <select  id="empDes" name="designation"  required="required" >
+ <tr><td>Designation  <select  id="empDes" name="designation"  required="required" onblur="return validate()">
                     <option>Select</option>
                     <option value="Manager">Manager</option>
                     <option value="Employee">Employee</option>
@@ -132,17 +144,17 @@ if(m!=null)
                     </select></td></tr>
                     
 <tr id="Employee"><td>
-EMPLOYEE ID  <input type="text" name="eid1" id="eid" placeholder="E101" value="0" maxlength="15" required="required" />
+EMPLOYEE ID  <input type="text" name="eid1" id="eid" placeholder="E101" value="E101" maxlength="15" required="required" />
 </td></tr>
 <tr id="Manager"><td>
 Manager ID   <select name="mid1" id="mid" />
                   </select>
 </td></tr> 
 <tr id="ManagerId"><td>
-Manager ID  <input type="text" name="mid2" id="mid" value="0" placeholder="M101" maxlength="15" required="required" />
+Manager ID  <input type="text" name="mid2" id="mid" value="M101" placeholder="M101" maxlength="15" required="required" />
 </td></tr>
 <tr id="Support"><td>
-EMPLOYEE ID   <input type="text" name="eid2" id="eid" value="0" placeholder="S101" maxlength="15" required="required" />
+EMPLOYEE ID   <input type="text" name="eid2" id="eid" value="S101" placeholder="S101" maxlength="15" required="required" />
 </td></tr>
 <tr id="SupportId"><td>
 Support ID <select name="sid" id="sid" />
@@ -154,7 +166,6 @@ Support ID <select name="sid" id="sid" />
 <tr><td><input type="submit" value="create" /></td></tr>
 </form>
 </table>
- </pre>
  </center>
   
   

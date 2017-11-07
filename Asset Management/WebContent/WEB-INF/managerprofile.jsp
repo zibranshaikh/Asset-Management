@@ -23,7 +23,7 @@
 
 <tr>
 <form action="Mupdatepassword" method="post">
-<td>${a1.mid}</td>
+<td>${a1.mid2}</td>
 <td>${a1.name}</td>
 <td>${a1.address}</td>
 <td>${a1.mobile}</td>
@@ -31,12 +31,12 @@
 <td>${a1.password}
 <input type="submit" value="changePassword" name="opreation"/></td>
 <td>${a1.designation}</td>
-<td>${a1.mid}</td>
+<td>${a1.mid2}</td>
 <td>${a1.sid}</td>
 <td>${a1.dateofjoin}</td>
 <td>${a1.status}</td>
 <td>
-<input type="hidden" name="managerid" value="${a1.mid}"/></td>
+<input type="hidden" name="managerid" value="${a1.mid2}"/></td>
 </form>
 </tr>
 </c:forEach>

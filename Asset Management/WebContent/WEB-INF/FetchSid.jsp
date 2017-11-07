@@ -14,9 +14,9 @@ try
 	Class.forName("com.mysql.jdbc.Driver");
 	
 	//establishing connection  
-	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/asset","root","");
+	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/assetmanagement","root","");
 
-	String sql = "select eid from employee where designation='Support Team' and eid like 'S%'";
+	String sql = "select eid2 from employee where designation='Support Team' and eid2 like 'S%'";
 	
 	PreparedStatement ps = con.prepareStatement(sql);
 	
@@ -26,7 +26,7 @@ try
 	while(rs.next())
 	{
        %>	
-    	<option><%=rs.getString("eid")%></option>
+    	<option><%=rs.getString("eid2")%></option>
 	  <%
 	}
    }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -23,6 +24,8 @@ public class RequestDao {
 	public int insertReq(Request r) 
 	{
 		int x=0;
+		Date d=new Date();
+		d.getTime();
 		//Connection con=new LoginDao().start();
 		AssetController ac=new AssetController();
 		Session ss= ac.session();

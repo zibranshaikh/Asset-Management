@@ -21,6 +21,8 @@
 <%@page import="java.util.ArrayList,beans.Request" %>
 <tr>
 <th><h1>Request Id</h1></th>
+<th><h1>Employee Id</h1></th>
+<th><h1>MID/SID</h1></th>
 <th><h1>Designation</h1></th>
 <th><h1>Asset Id</h1></th>
 <th><h1>Asset Name</h1></th>
@@ -35,6 +37,24 @@ for(Request cc:ar)
 %>
 <tr>
 <td><%=(cc.getRequestid())%></td>
+<%
+  if(cc.getDesignation().equalsIgnoreCase("Manager"))
+     {
+  %>
+ <td>       <input type="text" value="<%=(cc.getMid2())%>" name="mid2" readonly /></td>
+ <td>       <input type="text" value="<%=(cc.getSid())%>" name="sid" readonly /></td>
+<%
+}
+%>
+     <% if(cc.getDesignation().equalsIgnoreCase("Employee"))
+     {
+  %>
+ <td>       <input type="text" value="<%=(cc.getEid1())%>" name="eid1" readonly /></td>
+ <td>       <input type="text" value="<%=(cc.getMid1())%>" name="mid1" readonly /></td>
+ <%
+}
+%>
+
 <td><%=(cc.getDesignation())%></td>
 <td><%=(cc.getAssetid())%></td>
 <td><%=(cc.getAssetname())%></td>
@@ -46,6 +66,10 @@ for(Request cc:ar)
       if(st==4)
       {
     	  status="Approved";
+      }
+      else if(st==3)
+      {
+    	  status="Rejected";
       }
       %>
     <td><%=status%></td>  

@@ -23,19 +23,15 @@ for(Employee cc:ar)
 {
 	%>
 <pre>
-<form action="UpdateEmp" method="post">
- ID        <input type="text" value="<%=(cc.getEid1())%>" name="eid" readonly />
- Name      <input type="text" value="<%=(cc.getName())%>" name="name" />
- Address   <input type="text" value="<%=(cc.getAddress())%>" name="address" />
- Email     <input type="email" value="<%=(cc.getEmail())%>" name="email" />
- Mobile    <input type="text" value="<%=(cc.getMobile())%>" name="mobile" />
- Password  <input type="password" value="<%=(cc.getPassword())%>" name="password" readonly />
- Designation <select value="<%=(cc.getDesignation())%>" name="designation" readonly />
-                     <option>Developer</option>
-                     <option>Manager</option>
-                     <option>SupportTeam</option>
-                     </select>
- <input type="submit" value="Update" />
+<form action="./EUpdateEmp" method="post">
+ ID         <input type="text" value="<%=(cc.getEid1())%>" name="eid1" readonly />
+ Name       <input type="text" value="<%=(cc.getName())%>" name="name" readonly />
+ Address    <input type="text" value="<%=(cc.getAddress())%>" name="address" />
+ Email      <input type="email" value="<%=(cc.getEmail())%>" name="email" />
+ Mobile     <input type="text" value="<%=(cc.getMobile())%>" name="mobile" />
+ Designation<input type="text" value="<%=(cc.getDesignation())%>" name="designation" readonly />
+                     
+              <input type="submit" value="Update" />
   </form>
   <% 
 }

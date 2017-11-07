@@ -57,6 +57,13 @@ public class AssetController
           
   		return mv;
   	}
+	@RequestMapping("/example")
+  	public ModelAndView example()
+  {
+          ModelAndView mv=new ModelAndView("example");//view name
+          
+  		return mv;
+  	}
 	
 	
 	@RequestMapping("/adminlogin")
@@ -135,7 +142,6 @@ public class AssetController
   	public ModelAndView Emplogin()
   {
           ModelAndView mv=new ModelAndView("EmpLogin");//view name
-          mv.addObject("msg","Employee");
           
   		return mv;
   	}
@@ -330,7 +336,7 @@ public class AssetController
 	      }
    
       
-    @RequestMapping("/UpdateEmp")
+    @RequestMapping("/UpdateAEmp")
     //public(@RequestParam int id,@RequestParam String name,@RequestParam String address,@RequestParam String mobile)
  	public ModelAndView updateEmp(@ModelAttribute("Employee") Employee c)
  	{
@@ -349,10 +355,33 @@ public class AssetController
        {
     	   EmpDao ed=new EmpDao();
   	      List<Employee>list=ed.viewEmp();
-  	       mv=new ModelAndView("viewEmp");//view name
+  	       mv=new ModelAndView("");//view name
   	      mv.addObject("LIST",list);
   	    mv.addObject("msg","Employee Succesfully updated");
        }
+		return mv;
+
+ 	}
+
+    @RequestMapping("/EUpdateEmp")
+    public ModelAndView eupdateEmp(@ModelAttribute("Employee")Employee c,HttpServletRequest request)
+ 	{
+       ModelAndView mv=null;
+       EmpDao l=new EmpDao();
+       int z=l.eupdateEmp(c);
+       if(z==1)
+       {
+    	   
+    	   HttpSession ss=request.getSession();
+     	  String y=(String)ss.getAttribute("user");
+     	  //System.out.println(y);
+   	EmpDao ed=new EmpDao();
+   	ArrayList<Employee>list=ed.viewProfile(y);
+   	mv=new ModelAndView("ViewProfile");
+   	mv.addObject("LIST", list);
+   	mv.addObject("msg","Profile Successsfully Updated");
+   	
+   	   }
 		return mv;
 
  	}
@@ -426,17 +455,19 @@ public class AssetController
 	
    
    @RequestMapping("/approveReq")
-	public ModelAndView  approveReq(@RequestParam String eid,@RequestParam String op)
-	{  ModelAndView mv=null; 
+	public ModelAndView  approveReq(@ModelAttribute("Request")Request r,@RequestParam String op)
+	{
+	   ModelAndView mv=null; 
 	   if(op.equalsIgnoreCase("Approve"))
    {
 	   
 	  EmpDao l=new EmpDao();
-      int y=l.approveReq(eid);
+	  
+      int y=l.approveReq(r);
       if(y==1)
       {
-   	   EmpDao rd=new EmpDao();
-	      ArrayList<Request>list=rd.viewRequest();
+   	       EmpDao rd=new EmpDao();
+	       ArrayList<Request>list=rd.viewRequest();
 	       mv=new ModelAndView("viewReq");//view name
 	       mv.addObject("LIST",list);
 	       mv.addObject("msg2","Request Approved ");
@@ -445,8 +476,8 @@ public class AssetController
          {
 	   
 	   EmpDao l=new EmpDao();
-    //  int y=l.rejectReq(eid);
-     // if(y==1)
+      int y=l.rejectReq(r);
+      if(y==1)
       {
     	  EmpDao rd=new EmpDao();
 	      ArrayList<Request>list=rd.viewRequest();
@@ -465,7 +496,7 @@ public class AssetController
 	public ModelAndView  viewReports()
 	{
 	   EmpDao rd=new EmpDao();
-	      ArrayList<Employee>list=rd.viewReports();
+	      ArrayList<Request>list=rd.viewReports();
 	      ModelAndView mv=new ModelAndView("viewReport");//view name
 	       mv.addObject("LIST",list);
      
@@ -596,10 +627,11 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
   @RequestMapping("/ViewRequest")
  	protected ModelAndView viewAsset(HttpServletRequest request) {
  	  ModelAndView mv=null;
+ 	
  	  HttpSession ss=request.getSession();
  	  String y=(String)ss.getAttribute("user");
       RequestDao ld=new RequestDao();
-	ArrayList<Request> list=ld.viewReq(y);
+	  ArrayList<Request> list=ld.viewReq(y);
  	    mv=new ModelAndView("ViewRequest");
  		 mv.addObject("LIST", list);
  	  
@@ -607,12 +639,26 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
    }
   
 @RequestMapping("/CancelRequest")
-protected ModelAndView CancelRequest(HttpServletRequest request)
+protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpServletRequest request)
 {
 	ModelAndView mv=null;
-	
-    return mv;
-}
+	EmpDao l=new EmpDao();
+	  
+    int x=l.cancelReq(r);
+    if(x==1)
+    {
+ 	  
+	HttpSession ss=request.getSession();
+	  String y=(String)ss.getAttribute("user");
+    RequestDao ld=new RequestDao();
+	ArrayList<Request> list=ld.viewReq(y);
+	    mv=new ModelAndView("ViewRequest");
+		 mv.addObject("LIST", list);
+	     mv.addObject("msg","Your Request Has been cancelled");
+    }
+	     return mv;
+    
+    }
   @RequestMapping("/ViewProfile")
   protected ModelAndView viewProfile(HttpServletRequest request)
   {
@@ -657,12 +703,12 @@ protected ModelAndView CancelRequest(HttpServletRequest request)
   
   
   @RequestMapping("/changeEPassword")
-  protected ModelAndView chndpwd(@RequestParam("cpass")String cpass,@RequestParam("npass2") String npass2,@RequestParam("eid")String eid )
+  protected ModelAndView chndpwd(@RequestParam("cpass")String cpass,@RequestParam("npass2") String npass2,@RequestParam("eid1")String eid1 )
   {
   	ModelAndView mv=null;
   	
   	 EmpDao ed=new EmpDao();
-  	 int y=ed.chngEPass(cpass,npass2,eid);
+  	 int y=ed.chngEPass(cpass,npass2,eid1);
   	 if(y==1)
   	 {
   		 mv=new ModelAndView("changeEPassword");
@@ -700,6 +746,10 @@ protected ModelAndView CancelRequest(HttpServletRequest request)
 //	    	}
 	    	return mv;
   }
+  
+  
+ //--------------------------------Manager Module------------------//
+  
   
   @RequestMapping("/viewa")	
  	public ModelAndView viewa(HttpServletRequest request) 
@@ -757,28 +807,30 @@ protected ModelAndView CancelRequest(HttpServletRequest request)
  	public ModelAndView McreateR(@ModelAttribute("Request") Request r)
  	{
  	        ModelAndView mv=null;
- 	        int status=2;
+ 	        int status=1;
  	        EmpDao ed=new EmpDao();
  	        r.setStatus(status);
  			int y=ed.MinsertRequest(r);
  			if(y!=0)
  			{
  				mv=new ModelAndView("ManagerCreateRequest");
- 				mv.addObject("msg", "data inserted");
+ 				mv.addObject("msg", "Request sent to Support");
  			}
  			else
  			{
  				mv=new ModelAndView("ManagerCreateRequest");	
- 			    mv.addObject("msg", "try again");
+ 			    mv.addObject("msg", " Request Not sent,try again");
  			}
  			return mv;
  	}
  	@RequestMapping("/Mviewrequest")
- 	public ModelAndView MviewR(ModelAndView response) 
+ 	public ModelAndView MviewR(ModelAndView response,HttpServletRequest request) 
  	{
  		ModelAndView mv=null;
  		EmpDao ed=new EmpDao();
- 		ArrayList<Request> list=ed.MviewRequest();
+ 		HttpSession ss=request.getSession();
+ 		String mid=(String) ss.getAttribute("user");
+ 		ArrayList<Request> list=ed.MviewRequest(mid);
  		mv=new ModelAndView("ManagerViewRequest");
  		mv.addObject("LIST", list);
  	return mv;		

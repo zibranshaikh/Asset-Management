@@ -14,6 +14,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
 
 import com.controllers.AssetController;
@@ -290,54 +292,94 @@ public class EmpDao {
 		return list;
 	}
 
-	public int approveReq(String eid) {
+	public int approveReq(Request r) {
 		
 
 		int x=0;
 		int status=3;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-	    String hql="update request set status=:a where eid=:b";
+		if(r.getEid1()!=null)
+		{
+		System.out.println("Approve req "+status+" "+r.getEid1()+" "+r.getRequestid());
+	    String hql="update Request set status=:a where eid1=:b and requestid=:c ";
 	    Query q=ss.createQuery(hql);
 	    q.setInteger("a",status);
-	    q.setString("b",eid);
+	    q.setString("b",r.getEid1());
+	    q.setString("c",r.getRequestid());
+	    
 	    Transaction tt=ss.beginTransaction();
 	     x=q.executeUpdate();
 		     	tt.commit();
-		ss.close();
+				ss.close();
+
+		}
+		if(r.getMid2()!=null)
+		{
+		System.out.println("Approve req "+status+" "+r.getMid2()+" "+r.getRequestid());	  
+		String hql="update Request set status=:a where mid2=:b and requestid=:c";
+	    Query q=ss.createQuery(hql);
+	    q.setInteger("a",status);
+	    q.setString("b",r.getMid2());
+	    q.setString("c",r.getRequestid());
+		    Transaction tt=ss.beginTransaction();
+	     x=q.executeUpdate();
+		     	tt.commit();
+				ss.close();
+
+		}
+	
 	    	
 
 		return x;
 	}
 	
-	public int rejectReq(String eid) {
+	public int rejectReq(Request r) {
 		int x=0;
 		int status=4;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-	    String hql="update request set status=:a where eid=:b";
+		if(r.getEid1()!=null)
+		{
+	    String hql="update Request set status=:a where eid1=:b and requestid=:c ";
 	    Query q=ss.createQuery(hql);
 	    q.setInteger("a",status);
-	    q.setString("b",eid);
+	    q.setString("b",r.getEid1());
+	    q.setString("c",r.getRequestid());
+	    
+	    Transaction tt=ss.beginTransaction();
+	    x=q.executeUpdate();
+		tt.commit();
+	    ss.close();
+
+		}
+		if(r.getMid2()!=null)
+		{
+	    String hql="update Request set status=:a where mid2=:b and requestid=:c";
+	    Query q=ss.createQuery(hql);
+	    q.setInteger("a",status);
+	    q.setString("b",r.getMid2());
+	    q.setString("c",r.getRequestid());
+		    
 	    Transaction tt=ss.beginTransaction();
 	     x=q.executeUpdate();
-		    
-	 	tt.commit();
-	 	    		
+		
+	     tt.commit();
+		 ss.close();
+		}
+		 	    		
 
 		return x;
 
 	}
 
-	public ArrayList<Employee> viewReports() {
+	public ArrayList<Request> viewReports() {
 		
 
-		int status=4;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-		Criteria crit = ss.createCriteria(Employee.class);
-		crit.add(Restrictions.eq("status",status));
-	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+		Criteria crit = ss.createCriteria(Request.class);
+	    ArrayList<Request> list = (ArrayList<Request>) crit.list();
 		ss.close();
 		
 		return list;
@@ -369,7 +411,7 @@ public class EmpDao {
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
 		Criteria crit = ss.createCriteria(Employee.class);
-		crit.add(Restrictions.eq("eid",y));
+		crit.add(Restrictions.eq("eid1",y));
 	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
 		ss.close();
 
@@ -381,7 +423,7 @@ public class EmpDao {
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
 		Criteria crit = ss.createCriteria(Employee.class);
-		crit.add(Restrictions.eq("eid",eid));
+		crit.add(Restrictions.eq("eid1",eid));
 	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
 		ss.close();
 
@@ -393,15 +435,15 @@ public class EmpDao {
 	
 	
 	
-	public int chngEPass(String cpass,String npass2,String eid)
+	public int chngEPass(String cpass,String npass2,String eid1)
 	{
 		int x=0;
 		String a=null;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-		String hql1="select password from Employee where eid=:a";
+		String hql1="select password from Employee where eid1=:a";
 	    Query q1=ss.createQuery(hql1);
-	    q1.setString("a",eid);
+	    q1.setString("a",eid1);
 		Iterator it=q1.iterate();
 		while(it.hasNext())
 		{
@@ -411,10 +453,10 @@ public class EmpDao {
 		if(a.equals(cpass))
 		{
 			
-	    String hql="update Employee set password=:b where eid=:a";
+	    String hql="update Employee set password=:b where eid1=:a";
 	    Query q=ss.createQuery(hql);
 	    q.setString("b",npass2);
-	    q.setString("a",eid);
+	    q.setString("a",eid1);
 	     Transaction tt=ss.beginTransaction();
 	     x=q.executeUpdate();
 		    
@@ -432,7 +474,7 @@ public class EmpDao {
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
 		Criteria crit = ss.createCriteria(Employee.class);
-		crit.add(Restrictions.eq("mid",user1));
+		crit.add(Restrictions.eq("mid2",user1));
 		crit.add(Restrictions.eq("designation","Manager"));
 	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
 		Transaction tt=ss.beginTransaction();
@@ -463,13 +505,14 @@ public class EmpDao {
 			return x;
 	
 	}
-	public ArrayList<Request> MviewRequest() 
+	public ArrayList<Request> MviewRequest(String mid) 
 	{
-		int status=4;
+	
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-		Criteria crit = ss.createCriteria(Employee.class);
-		crit.add(Restrictions.eq("status",status));
+		Criteria crit = ss.createCriteria(Request.class);
+		crit.add(Restrictions.eq("mid2",mid));
+		
 		ArrayList<Request> list = (ArrayList<Request>) crit.list();
 		ss.close();
 		
@@ -495,7 +538,7 @@ public class EmpDao {
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
 		Criteria crit = ss.createCriteria(Employee.class);
-		crit.add(Restrictions.eq("mid",user1));
+		crit.add(Restrictions.eq("mid1",user1));
 		crit.add(Restrictions.eq("designation","Employee"));
 		ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
 		ss.close();
@@ -536,8 +579,51 @@ public class EmpDao {
 			return x;
 	}
 
-	
+
+	public int cancelReq(Request r) {
+   
+		int x=0;
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		System.out.println("cancel request "+r.getRequestid());
+		String hql="delete from Request where requestid=:a";
+	    Query q=ss.createQuery(hql);
+		Transaction tt=ss.beginTransaction();
+		q.setString("a",r.getRequestid());
+	     x=q.executeUpdate();
+	     tt.commit();
+	 	ss.close();
+		
+		
+		return x;
 	}
+
+	public int eupdateEmp(Employee c) {
+    
+		int x=0;
+		SessionFactory sf=new AnnotationConfiguration().configure().buildSessionFactory();//Class.forName
+		org.hibernate.Session ss=sf.openSession(); //Connection
+		
+		if(c.getEid1()!=null)
+		{
+		String hql="update Employee set address=:a,email=:b,mobile=:c where eid1=:d";
+	    Query q=ss.createQuery(hql);
+	    q.setString("a",c.getAddress());
+	    q.setString("b",c.getEmail());
+	    q.setLong("c",c.getMobile());
+	    q.setString("d",c.getEid1());
+	    Transaction tt=ss.beginTransaction();
+	     x=q.executeUpdate();
+		    tt.commit();
+		}
+		ss.close();
+	return x;
+	}
+	
+
+
+
+}
 	
 	
 

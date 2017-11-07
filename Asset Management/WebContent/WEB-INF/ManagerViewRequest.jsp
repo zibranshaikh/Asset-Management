@@ -20,11 +20,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:forEach items= "${LIST}" var ="a1">
 <tr>
-<td>${a1.mid}</td>
+<td>${a1.mid2}</td>
 <td>${a1.assetid}</td>
 <td>${a1.assetname}</td>
 <td>${a1.requestid}</td>
-<td>${a1.date}</td>
+<td>${a1.requestdate}</td>
 <td>${a1.status}</td>
 
 </tr>
