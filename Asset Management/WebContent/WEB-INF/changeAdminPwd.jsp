@@ -76,7 +76,9 @@ border: none;
     color: #fff;
     background: #000000;
 }
-
+pre {
+    color:blue;
+}
 /* Credit to bootsnipp.com for the css for the color graph 
  ESTO SOLO ES PARA EL FORMULARIO DE LOGIN
 */
@@ -125,18 +127,18 @@ border: none;
 </form>
 </p1>
 <center>
-<pre>
 
 <font color="red"><h1>Change Password </h1></font>
+</br>
 <form action="./AdpwdChange" method="post">
 <input type="hidden" value="${user}" name="user" />
-Current Password  <input type="password" name="cpass" required="required" placeholder="123@zibran" onblur="pwdCheck()"/>
-New Password      <input type="password" name="npass1" id="npass1" required="required"  placeholder="123@zibran" />
-Confirm Password  <input type="password" name="npass2" id="npass2" required="required" placeholder="123@zibran" onblur="return validate()"/>
-                          
-             <input type="submit" value="Change Password" /><!-- button to submit the field and go to adeditcontroller -->
+<h4>Current Password  <input type="password" name="cpass" required="required" placeholder="123@zibran" onblur="pwdCheck()"/></h4>
+<h4>New Password      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="npass1" id="npass1" required="required"  placeholder="123@zibran" /></h4>
+<h4>Confirm Password  <input type="password" name="npass2" id="npass2" required="required" placeholder="123@zibran" onblur="return validate()"/>
+</h4>           
+</br>               
+            <h4> <input type="submit" value="Change Password" /></h4><!-- button to submit the field and go to adeditcontroller -->
 </form>
-</pre>
 </center>
 </body>
 </html>

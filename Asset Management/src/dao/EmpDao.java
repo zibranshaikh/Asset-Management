@@ -185,8 +185,9 @@ public class EmpDao {
 			Session ss= ac.session();
 		   if(e.getMid2()!=null)
 			{
-			   if(e.getMid2().contains("M"))
+			   if(e.getMid2().contains("M")&&e.getDesignation().equals("Manager"))
 		   {
+				
 			String hql="update Employee set sid=:a,designation=:b where mid2=:c";
 		    Query q=ss.createQuery(hql);
 		    q.setString("a",e.getSid());
@@ -195,11 +196,38 @@ public class EmpDao {
 		    Transaction tt=ss.beginTransaction();
 		     x=q.executeUpdate();
 			    tt.commit();
-		   }
+			    
+			   }
+			   if(e.getDesignation().equals("Employee"))
+				{
+					String hql="update Employee set eid1=:a,designation=:b where mid1=:c";
+				    Query q=ss.createQuery(hql);
+				    q.setString("a",e.getEid1());
+				    q.setString("b",e.getDesignation());
+				    q.setString("c",e.getMid1());
+				    Transaction tt=ss.beginTransaction();
+				     x=q.executeUpdate();
+					    tt.commit();
+					    	
+				}
+		   
+			   if(e.getDesignation().equals("Support Team"))
+				{
+					String hql="update Employee set eid2=:a,designation=:b where mid2=:c";
+				    Query q=ss.createQuery(hql);
+				    q.setString("a",e.getEid2());
+				    q.setString("b",e.getDesignation());
+				    q.setString("c",e.getMid2());
+				    Transaction tt=ss.beginTransaction();
+				     x=q.executeUpdate();
+					    tt.commit();
+					    	
+				}
+		   
 			}
 		   if(e.getEid2()!=null)
 		{   
-		   if(e.getEid2().contains("S"))
+		   if(e.getEid2().contains("S")&&e.getDesignation().equals("Support"))
 		   {
 			String hql="update Employee set designation=:a where eid2=:b";
 		    Query q=ss.createQuery(hql);
@@ -209,11 +237,39 @@ public class EmpDao {
 		     x=q.executeUpdate();
 			    tt.commit();
 		   }
+		
+		   if(e.getDesignation().equals("Employee"))
+			{
+				String hql="update Employee set eid1=:a,designation=:b where mid1=:c";
+			    Query q=ss.createQuery(hql);
+			    q.setString("a",e.getEid1());
+			    q.setString("b",e.getDesignation());
+			    q.setString("c",e.getMid1());
+			    Transaction tt=ss.beginTransaction();
+			     x=q.executeUpdate();
+				    tt.commit();
+				    	
+			}
+	   
+		   if(e.getDesignation().equals("Manager"))
+			{
+				String hql="update Employee set mid2=:a,designation=:b where eid2=:c";
+			    Query q=ss.createQuery(hql);
+			    q.setString("a",e.getMid2());
+			    q.setString("b",e.getDesignation());
+			    q.setString("c",e.getEid2());
+			    Transaction tt=ss.beginTransaction();
+			     x=q.executeUpdate();
+				    tt.commit();
+				    	
+			}
+	   
 		}
 		   if(e.getEid1()!=null)
 		{
-		   if(e.getEid1().contains("E"))
+		   if(e.getEid1().contains("E")&&e.getDesignation().equals("Employee"))
 		   {
+			   
 			String hql="update Employee set mid1=:a,designation=:b where eid1=:c";
 		    Query q=ss.createQuery(hql);
 		    q.setString("a",e.getMid1());
@@ -223,6 +279,33 @@ public class EmpDao {
 		     x=q.executeUpdate();
 			    tt.commit();
 		   }
+		   
+		   if(e.getDesignation().equals("Employee"))
+					{
+						String hql="update Employee set eid1=:a,designation=:b where mid1=:c";
+					    Query q=ss.createQuery(hql);
+					    q.setString("a",e.getEid1());
+					    q.setString("b",e.getDesignation());
+					    q.setString("c",e.getMid1());
+					    Transaction tt=ss.beginTransaction();
+					     x=q.executeUpdate();
+						    tt.commit();
+						    	
+					}
+			   
+				   if(e.getDesignation().equals("Support Team"))
+					{
+						String hql="update Employee set eid2=:a,designation=:b where mid2=:c";
+					    Query q=ss.createQuery(hql);
+					    q.setString("a",e.getEid2());
+					    q.setString("b",e.getDesignation());
+					    q.setString("c",e.getMid2());
+					    Transaction tt=ss.beginTransaction();
+					     x=q.executeUpdate();
+						    tt.commit();
+						    	
+					}
+			   
 		}
 		 	ss.close();
 				
@@ -426,6 +509,17 @@ public static void main(String[] args) {
 	  return list;		
 	}
 
+	public ArrayList<Employee> viewSProfile(String y)
+	{
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Employee.class);
+		crit.add(Restrictions.eq("eid2",y));
+	    ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+		ss.close();
+
+	  return list;		
+	}
 	
 	public ArrayList<Employee> viewEmUpdate(String eid) {
 		AssetController ac=new AssetController();

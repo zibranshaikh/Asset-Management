@@ -176,7 +176,7 @@ $(function(){
 	     		<h2>Please Sign In</h2>
 				<hr class="colorgraph">
 				<div class="form-group">
-                Employee<input type="text" name="eid" id="email" class="form-control input-lg" placeholder="Email Address" required>
+                Employee<input type="text" name="eid" id="email" class="form-control input-lg" placeholder="Employee Id like M101,E101,S101" required>
 				</div>
 				<div class="form-group">
                 Password <input type="password" name="pwd" id="password" class="form-control input-lg" placeholder="Password" required>

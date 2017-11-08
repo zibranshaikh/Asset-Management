@@ -5,6 +5,39 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Update Product</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+			
+			
+			$.ajax({
+				
+				url:'./fetchMid',
+				type:'post',
+				success:function(result){
+				//	alert(eid);
+					$("#mid").append(result);
+				}
+				
+			});
+			$.ajax({
+				
+				url:'./fetchSid',
+				type:'post',
+				success:function(result){
+				//	alert(eid);
+					$("#sid").append(result);
+				}
+				
+			});
+			
+			
+		
+	});
+
+</script>
+
 </head>
 <body> 
 <p1 align="right">
@@ -35,8 +68,9 @@ Employee cc=(Employee)request.getAttribute("E");
      <% if(cc.getDesignation().equalsIgnoreCase("Employee"))
      {
   %>
- <tr><td>Employee ID        <input type="text" value="<%=(cc.getEid1())%>" name="eid1" readonly /></td></tr>
- <tr><td>Manager ID        <input type="text" value="<%=(cc.getMid1())%>" name="mid1" required="required" /></td></tr>
+ <tr><td>Employee ID</td><td><input type="text" value="<%=(cc.getEid1())%>" name="eid1" readonly /></td></tr>
+ <tr><td>Manager ID</td><td><select name="mid1" id="mid" /></select>
+                     </td></tr> 
 <%
 }
 %>
@@ -59,7 +93,7 @@ Employee cc=(Employee)request.getAttribute("E");
                        <option>Support Team</option>       
                      </select></td></tr>
  
-  <tr><td><input type="submit" value="Update" /></td></tr>
+  <tr><td><input type="submit" value="Update" onclick="return confirm('Are you sure')"/></td></tr>
   </form>
 </body>
 </html>

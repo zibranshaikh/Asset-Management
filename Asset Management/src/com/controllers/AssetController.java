@@ -460,7 +460,22 @@ public class AssetController
 
  	}
 	
-   
+   @RequestMapping("/viewSProfile")
+   protected ModelAndView viewSProfile(HttpServletRequest request)
+   {
+   	ModelAndView mv=null;
+   	 HttpSession ss=request.getSession();
+     	  String y=(String)ss.getAttribute("user");
+     	  //System.out.println(y);
+   	EmpDao ed=new EmpDao();
+   	ArrayList<Employee>list=ed.viewSProfile(y);
+   	mv=new ModelAndView("viewSupProfile");
+   	mv.addObject("LIST", list);
+   	
+   	
+   	return mv;
+   }
+    
    @RequestMapping("/approveReq")
 	public ModelAndView  approveReq(@ModelAttribute("Request")Request r,@RequestParam String op)
 	{
