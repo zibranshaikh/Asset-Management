@@ -2,6 +2,7 @@ package beans;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Request {
@@ -11,7 +12,8 @@ public class Request {
 	    String requestid;
   		String assetid;
 		String assetname;
-		transient String requestdate;
+	   // @Transient
+		String requestdate;
 		String designation;
 		String eid1;
 		String eid2;
@@ -21,6 +23,12 @@ public class Request {
 		   int status;
 		   
 		   
+		@Override
+		public String toString() {
+			return "Request [requestid=" + requestid + ", assetid=" + assetid + ", assetname=" + assetname
+					+ ", requestdate=" + requestdate + ", designation=" + designation + ", eid1=" + eid1 + ", eid2="
+					+ eid2 + ", mid1=" + mid1 + ", mid2=" + mid2 + ", sid=" + sid + ", status=" + status + "]";
+		}
 		public String getEid1() {
 			return eid1;
 		}

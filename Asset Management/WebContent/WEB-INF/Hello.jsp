@@ -163,9 +163,10 @@ $(function(){
     	<form action="./check" method="post" role="form">
 		
 			<fieldset>
-			  <p align="Left">
-<a href="./">Go To Main Page</a>
+			  <p align="Left"><h3>
+<a href="./">Go To Main Page</a></h3>
 </p>
+</br>
 			  <center><h1>Admin Login</h1></center>
 			  </br>
 			  </br>
@@ -178,7 +179,7 @@ $(function(){
                 Password <input type="password" name="pwd" id="password" class="form-control input-lg" placeholder="Password" required>
 				</div>
 				<span class="button-checkbox">
-					<a href="" class="btn btn-link pull-right">Forgot Password?</a>
+					<a href="./forgotAPass" class="btn btn-link pull-right">Forgot Password?</a>
 				</span>
 				<hr class="colorgraph">
 				<div class="row">

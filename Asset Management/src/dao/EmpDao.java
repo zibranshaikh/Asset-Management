@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -287,11 +289,17 @@ public class EmpDao {
 		Criteria crit = ss.createCriteria(Request.class);
 		crit.add(Restrictions.eq("status",status));
 	    ArrayList<Request> list = (ArrayList<Request>) crit.list();
-		ss.close();
+		for(Request r:list)
+		{
+			System.out.println(r);
+		}
+	    ss.close();
 		
 		return list;
 	}
-
+public static void main(String[] args) {
+	System.out.println(new EmpDao().viewRequest());
+}
 	public int approveReq(Request r) {
 		
 
@@ -493,7 +501,9 @@ public class EmpDao {
 		Session ss= ac.session();
 		System.out.println(r);
 		Transaction tt=ss.beginTransaction();
-		
+		SimpleDateFormat s=new SimpleDateFormat("dd/MM/yyyy");
+		r.setRequestdate(s.format(new Date()));
+		r.setDesignation("Manager");
 			if(ss.save(r)!=null)
 			{
 		      x=1;	

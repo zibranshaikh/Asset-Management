@@ -237,6 +237,7 @@ public class AssetController
         //c.setEmail(email);
         
         EmpDao l=new EmpDao();
+        
         if(c.getDesignation().equalsIgnoreCase("Manager"))
         {
         c.setMid1("0");
@@ -246,6 +247,12 @@ public class AssetController
         c.setMid1("0");
         c.setSid("0");
         }
+        if(c.getDesignation().equalsIgnoreCase("Employee"))
+        {
+        c.setMid2("0");
+        c.setEid2("0");
+        }
+   
         int y=l.insertEmp(c);
         if(y==1)
         { 

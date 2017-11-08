@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,7 +32,8 @@ public class RequestDao {
 		Session ss= ac.session();
 		System.out.println(r);
 		Transaction tt=ss.beginTransaction();
-		
+		SimpleDateFormat s=new SimpleDateFormat("dd/MM/yyyy");
+		r.setRequestdate(s.format(new Date()));
 			if(ss.save(r)!=null)
 			{
 		      x=1;	
