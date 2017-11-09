@@ -241,11 +241,15 @@ public class AssetController
         if(c.getDesignation().equalsIgnoreCase("Manager"))
         {
         c.setMid1("0");
+        c.setEid1("0");
+        c.setEid2("0");
         }
         if(c.getDesignation().equalsIgnoreCase("Support Team"))
         {
+        c.setEid1("0");	
         c.setMid1("0");
         c.setSid("0");
+        c.setMid2("0");
         }
         if(c.getDesignation().equalsIgnoreCase("Employee"))
         {
@@ -476,7 +480,7 @@ public class AssetController
    	return mv;
    }
     
-   @RequestMapping("/approveReq")
+    @RequestMapping("/approveReq")
 	public ModelAndView  approveReq(@ModelAttribute("Request")Request r,@RequestParam String op)
 	{
 	   ModelAndView mv=null; 
@@ -659,7 +663,49 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
  	  
  	  return mv;
    }
+
+  @RequestMapping("/ViewAsset")
+ 	protected ModelAndView viewMyAsset(HttpServletRequest request) {
+ 	  ModelAndView mv=null;
+ 	
+ 	  HttpSession ss=request.getSession();
+ 	  String y=(String)ss.getAttribute("user");
+      RequestDao ld=new RequestDao();
+	  ArrayList<Request> list=ld.viewMyAsset(y);
+ 	    mv=new ModelAndView("ViewMyAsset");
+ 		 mv.addObject("LIST", list);
+ 	  
+ 	  return mv;
+   }
+
+  @RequestMapping("/AssetETransfer")
+	protected ModelAndView AssetETransfer(HttpServletRequest request) {
+	  ModelAndView mv=null;
+		
+ 	  HttpSession ss=request.getSession();
+ 	  String y=(String)ss.getAttribute("user");
+      RequestDao ld=new RequestDao();
+	  ArrayList<Request> list=ld.viewMyAsset(y);
+	  mv=new ModelAndView("AssetETransfer");
+ 		 mv.addObject("LIST", list);
+	    return mv;
+ }
   
+  @RequestMapping("/TransferEasset")
+	protected ModelAndView TransferEasset(HttpServletRequest request,@RequestParam ("eid1")String eid1,@RequestParam ("eid")String eid,@RequestParam ("assetid")String assetid) {
+	  ModelAndView mv=null;
+		
+		EmpDao l=new EmpDao();
+		  
+	    int x=l.TransferEasset(eid1,eid,assetid);
+	    if(x==1)
+	    {
+	  mv=new ModelAndView("EmployeeHome");
+      mv.addObject("msg","Asset Transfered");
+	    }
+ 		 return mv;
+ }
+    
 @RequestMapping("/CancelRequest")
 protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpServletRequest request)
 {
@@ -740,7 +786,7 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
   	 }
   	 else
   	 {
-  		 mv=new ModelAndView("changePassword");
+  		 mv=new ModelAndView("changeEPassword");
   		 mv.addObject("chng", "Failed,Current Password Doesnt Match");
   	 }
   	return mv;
@@ -857,17 +903,21 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
  		mv.addObject("LIST", list);
  	return mv;		
  	}
+ 	
  	@RequestMapping("/managerasset")	
- 	public ModelAndView viewmyasset(ModelAndView response) 
+ 	public ModelAndView viewmyasset(HttpServletRequest request,ModelAndView response) 
  	{
  		ModelAndView mv=null;
  		EmpDao ed=new EmpDao();
- 		ArrayList<Request> list=ed.viewmanagerasset();
+ 		HttpSession ss=request.getSession();
+ 		String mid2=(String) ss.getAttribute("user");
+ 		ArrayList<Asset> list=ed.viewmanagerasset(mid2);
  		mv=new ModelAndView("viewmanagerasset");
  		mv.addObject("LIST", list);
  	return mv;			
 
  	}
+ 	
  	@RequestMapping("/viewMallemployee")	
  	public ModelAndView viewallemployee(HttpServletRequest request) 
  	{
@@ -882,4 +932,56 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
  		
  		return mv;
  	}
+ 	 @RequestMapping("/mpendingrequest")
+  	public ModelAndView  mpendingrequest()
+  	{
+ 	   EmpDao rd=new EmpDao();
+ 	      ArrayList<Request>list=rd.viewMRequest();
+ 	      ModelAndView mv=new ModelAndView("pendingMrequest");//view name
+ 	       mv.addObject("LIST",list);
+       
+       return mv;
+
+  	}
+
+ 	 @RequestMapping("/ManagerApproveReq")
+ 	public ModelAndView ManagerApproveReq(@ModelAttribute("Request")Request r,@RequestParam String op)
+ 	{
+ 	   ModelAndView mv=null; 
+ 	   if(op.equalsIgnoreCase("Approve"))
+    {
+ 	   
+ 	  EmpDao l=new EmpDao();
+ 	  
+       int y=l.approveMReq(r);
+       if(y==1)
+       {
+    	   EmpDao rd=new EmpDao();
+  	      ArrayList<Request>list=rd.viewMRequest();
+  	       mv=new ModelAndView("pendingMrequest");//view name
+  	       mv.addObject("LIST",list);
+           mv.addObject("msg2","Request Approved ");
+       }
+    }  
+ 	   else if(op.equalsIgnoreCase("Reject"))
+          {
+ 	   
+ 	   EmpDao l=new EmpDao();
+       int y=l.rejectMRequest(r);
+       if(y==1)
+       {
+    	   EmpDao rd=new EmpDao();
+  	       ArrayList<Request>list=rd.viewMRequest();
+  	       mv=new ModelAndView("pendingMrequest");//view name
+  	       mv.addObject("LIST",list);
+           mv.addObject("msg1","Request Reject for Employee");
+       
+       }
+       }
+ 	   
+     return mv;
+
+ 	}
+
+
 }

@@ -227,7 +227,7 @@ public class EmpDao {
 			}
 		   if(e.getEid2()!=null)
 		{   
-		   if(e.getEid2().contains("S")&&e.getDesignation().equals("Support"))
+		   if(e.getEid2().contains("S")&&e.getDesignation().equals("Support Team"))
 		   {
 			String hql="update Employee set designation=:a where eid2=:b";
 		    Query q=ss.createQuery(hql);
@@ -380,9 +380,24 @@ public class EmpDao {
 		
 		return list;
 	}
-public static void main(String[] args) {
-	System.out.println(new EmpDao().viewRequest());
-}
+	public ArrayList<Request> viewMRequest() {
+		int status=0;
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Request.class);
+		crit.add(Restrictions.eq("status",status));
+	    ArrayList<Request> list = (ArrayList<Request>) crit.list();
+		for(Request r:list)
+		{
+			System.out.println(r);
+		}
+	    ss.close();
+		
+		return list;
+	}
+//public static void main(String[] args) {
+//	System.out.println(new EmpDao().viewRequest());
+//}
 	public int approveReq(Request r) {
 		
 
@@ -401,9 +416,26 @@ public static void main(String[] args) {
 	    
 	    Transaction tt=ss.beginTransaction();
 	     x=q.executeUpdate();
-		     	tt.commit();
-				ss.close();
+				
+				
+				String hql2="select mid1 from Request where eid1=:a";
+				Query q2=ss.createQuery(hql2);
+				q2.setString("a",r.getEid1());
+				List<String> list=(List<String>)q2.list();
+				String rd=list.get(0);
+			    
+		String hql1="update Asset set status=:a where eid1=:b and mid1=:c ";
+	    Query q1=ss.createQuery(hql1);
+	    int status1=1;
+	            q1.setInteger("a",status1);
+			    q1.setString("b",r.getEid1());
+			    q1.setString("c",rd);
+			    
+			     x=q1.executeUpdate();
+				     	tt.commit();
+						ss.close();
 
+				
 		}
 		if(r.getMid2()!=null)
 		{
@@ -415,8 +447,17 @@ public static void main(String[] args) {
 	    q.setString("c",r.getRequestid());
 		    Transaction tt=ss.beginTransaction();
 	     x=q.executeUpdate();
-		     	tt.commit();
-				ss.close();
+
+				 
+				int status1=1;
+	    String hql1="update Asset set status=:a where mid2=:b";
+	    Query q1=ss.createQuery(hql1);
+	            q1.setInteger("a",status1);
+			    q1.setString("b",r.getMid2());
+			    
+			     x=q1.executeUpdate();
+				     	tt.commit();
+						ss.close();
 
 		}
 	
@@ -424,8 +465,61 @@ public static void main(String[] args) {
 
 		return x;
 	}
+        public int approveMReq(Request r) {
+		
+
+		int x=0;
+		int status=1;
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		if(r.getEid1()!=null)
+		{
+		System.out.println("Approve req "+status+" "+r.getEid1()+" "+r.getRequestid());
+	    String hql="update Request set status=:a where eid1=:b and requestid=:c ";
+	    Query q=ss.createQuery(hql);
+	    q.setInteger("a",status);
+	    q.setString("b",r.getEid1());
+	    q.setString("c",r.getRequestid());
+	    
+	    Transaction tt=ss.beginTransaction();
+	     x=q.executeUpdate();
+				     	tt.commit();
+						ss.close();
+
+				
+		}
+		
+	    	return x;
+	}
 	
-	public int rejectReq(Request r) {
+       public int rejectMRequest(Request r) {
+	
+
+	int x=0;
+	int status=2;
+	AssetController ac=new AssetController();
+	Session ss= ac.session();
+	if(r.getEid1()!=null)
+	{
+	System.out.println("Approve req "+status+" "+r.getEid1()+" "+r.getRequestid());
+    String hql="update Request set status=:a where eid1=:b and requestid=:c ";
+    Query q=ss.createQuery(hql);
+    q.setInteger("a",status);
+    q.setString("b",r.getEid1());
+    q.setString("c",r.getRequestid());
+    
+    Transaction tt=ss.beginTransaction();
+     x=q.executeUpdate();
+			     	tt.commit();
+					ss.close();
+
+			
+	}
+	
+    	return x;
+}
+
+public int rejectReq(Request r) {
 		int x=0;
 		int status=4;
 		AssetController ac=new AssetController();
@@ -624,14 +718,15 @@ public static void main(String[] args) {
 	
 			}
 
-	public ArrayList<Request> viewmanagerasset() 
+	public ArrayList<Asset> viewmanagerasset(String mid2) 
 	{
-		int status=5;
+		int status=1;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-		Criteria crit = ss.createCriteria(Employee.class);
+		Criteria crit = ss.createCriteria(Asset.class);
 		crit.add(Restrictions.eq("status",status));
-		ArrayList<Request> list = (ArrayList<Request>) crit.list();
+		crit.add(Restrictions.eq("mid2",mid2));
+		ArrayList<Asset> list = (ArrayList<Asset>) crit.list();
 		ss.close();
 		
 		return list;
@@ -723,10 +818,65 @@ public static void main(String[] args) {
 		ss.close();
 	return x;
 	}
+
+	public int TransferEasset(String eid1, String eid, String assetid) {
+
+		int x=0;
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+	     Transaction tt=ss.beginTransaction();
+	     if(eid.contains("M"))
+	     {
+     	String hql1="update Asset set mid2=:a where eid1=:b and assetid=:c ";
+	    Query q1=ss.createQuery(hql1);
+	            q1.setString("a",eid);
+			    q1.setString("b",eid1);
+			    q1.setString("c",assetid);
+			    x=q1.executeUpdate();
+			    
+			    String hql="update Asset set eid1=:a,mid1=:b where eid1=:c ";
+			    Query q=ss.createQuery(hql);
+			            q.setString("a","null");
+					    q.setString("b","null");
+					    q.setString("c",eid1);
+					    
+					    x=q.executeUpdate();
+					    tt.commit();
+						ss.close();
+
+	     	}
+	     if(eid.contains("E"))
+	     {
+     	String hql1="update Asset set eid1=:a where eid1=:b and assetid=:c ";
+	    Query q1=ss.createQuery(hql1);
+	            q1.setString("a",eid);
+			    q1.setString("b",eid1);
+			    q1.setString("c",assetid);
+			    
+			     x=q1.executeUpdate();
+				     	tt.commit();
+						ss.close();
+
+	     	}
+
+	return x;
+	}
 	
 
-
-
+	public ArrayList<Employee> getEmpDetail()
+	{		
+	    AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Employee.class);
+		ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+		
+		
+			    ss.close();
+	            return list;
+		}
+	public static void main(String[] args) {
+		System.out.println(new EmpDao().getEmpDetail());
+	}
 }
 	
 	

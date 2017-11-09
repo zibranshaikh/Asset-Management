@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+</head>
+<body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style type="text/css">
 body{
@@ -78,9 +80,6 @@ border: none;
   background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
 }
 </style>
-
-</head>
-<body>
 <div class="navbar-wrapper">
     <div class="container-fluid">
         <nav class="navbar navbar-fixed-top">
@@ -102,24 +101,60 @@ border: none;
 </br>
 </br>
 </br>
-<center>
 <p1 align="right">
- <form action="./empop" method="post">
-<input type="hidden" value="${user}" name="userid" />
+ <form action="./managerop" method="post">
+<input type="hidden" value="${user}" name="eid" /> 
+<input type="submit" value="Home" name="op" />
 <input type="submit" value="Logout" name="op" />
 </form>
 </p1>
-<h1>Employee Home</h1>
+<center>
+<pre>
 <h1>Welcome ${user}</h1>
-<h1>${msg}</h1>
-<a href="AssetRequest">Create Asset Request</a></br></br>
-<a href="ViewAsset">My Assets</a></br></br>
-<!-- <a href="ViewEmpRequest">View Request From Colleague</a></br></br> -->
-<a href="ViewRequest">View My Request</a></br></br>
-<a href="AssetETransfer">Transfer Asset</a></br></br>
-<a href="ViewProfile">Profile</a></br></br>
-<a href="changeEPass">Change Password</a></br></br>
-
-</body>
+<h1>${msg}</h1><h1>${msg1}</h1><h1>${msg2}</h1>
+<h1>Asset Requests</h1>
+<table border="5">
+<%@page import="java.util.ArrayList,beans.Request" %>
+<tr><th>Employee ID </th><th>Mid/Sid<th>Designation</th><th>Asset Id</th><th>Asset Name</th><th>Request ID</th><th>Request date</th><th>Request Status</th><th>Action</th></tr>
+<%
+ArrayList<Request> ar=(ArrayList<Request>)request.getAttribute("LIST");
+for(Request cc:ar)
+{
+%>
+<form action="./ManagerApproveReq" method="post">
+<tr>
+  <% if(cc.getDesignation().equalsIgnoreCase("Employee"))
+     {
+  %>
+ <td>       <input type="text" value="<%=(cc.getEid1())%>" name="eid1" readonly /></td>
+ <td>       <input type="text" value="<%=(cc.getMid1())%>" name="mid1" readonly /></td>
+ <%
+}
+%>
+<td><input type="text" value="<%=(cc.getDesignation())%>" name="designation" readonly /></td>
+<td><input type="text" value="<%=(cc.getAssetid())%>" name="assetid" readonly /></td>
+<td><%=(cc.getAssetname())%></td>
+<td><input type="text" value="<%=(cc.getRequestid())%>" name="requestid" readonly /></td>
+<td><%=(cc.getRequestdate())%></td>
+<%  int st=0;
+      String status="";
+      st=cc.getStatus(); 
+      if(st==0)
+      {
+    	  status="New Request";
+      }
+      %>
+    <td><%=status%></td>  
+<td><input type="submit" value="Approve" name="op" /><input type="submit" value="Reject" name="op" />
+</td>
+</tr>
+</form>
+</tr>
+<% 
+}
+%>
+</table>
+</pre>
 </center>
+</body>
 </html>

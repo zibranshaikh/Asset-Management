@@ -60,4 +60,22 @@ public class RequestDao {
 	
 	}
 	
+	public ArrayList<Request> viewMyAsset(String y)
+	{     
+		
+	    int status=1;
+		AssetController ac=new AssetController();
+		Session ss= ac.session();
+		Criteria crit = ss.createCriteria(Asset.class);
+		crit.add(Restrictions.eq("eid1",y));
+		crit.add(Restrictions.eq("status",status));
+		
+	    ArrayList<Request> list = (ArrayList<Request>) crit.list();
+		ss.close();
+		
+		return list;
+	
+	}
+	
+	
 }

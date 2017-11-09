@@ -179,8 +179,8 @@ $(function(){
                 Password <input type="password" name="pwd" id="password" class="form-control input-lg" placeholder="Password" required>
 				</div>
 				<span class="button-checkbox">
-					<a href="./forgotAPass" class="btn btn-link pull-right">Forgot Password?</a>
-				</span>
+<!-- 					<a href="./forgotAPass" class="btn btn-link pull-right">Forgot Password?</a>
+	 -->			</span>
 				<hr class="colorgraph">
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">

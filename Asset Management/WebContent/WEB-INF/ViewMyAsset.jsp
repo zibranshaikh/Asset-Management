@@ -20,6 +20,7 @@
   <th>AssetID</th>
   <th>AssetName</th>
   <th>EmployeeId</th>
+  <th>ManagerId</th>
   <th>Status</th>
   </tr>
 <%@page import="java.util.ArrayList,beans.Asset" %>
@@ -31,7 +32,8 @@ for(Asset cc:ar)
 <tr> 
     <td><%=cc.getAssetid()%></td>
     <td><%=cc.getAssetname()%></td>
-    <td><%=cc.getMid2()%></td>
+    <td><%=cc.getEid1()%></td>
+    <td><%=cc.getMid1()%></td>
     <%  int st=0;
       String status="";
       st=cc.getStatus(); 

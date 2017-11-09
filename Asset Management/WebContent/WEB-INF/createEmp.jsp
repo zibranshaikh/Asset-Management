@@ -257,10 +257,10 @@ if(m!=null)
                      </select>
                      </td></tr> 
                      <tr id="ManagerId"><td>
-<b>Manager ID</b>           </td><td><input type="text" name="mid2" id="mid" value="M101" placeholder="M101" maxlength="15" required="required" />
+<b>Manager ID</b>    </td><td><input type="text" name="mid2" id="mid" value="M101" placeholder="M101" maxlength="15" required="required" />
                      </td></tr>
                      <tr id="Support"><td>
-<b>EMPLOYEE ID</b>          </td><td><input type="text" name="eid2" id="eid" value="S101" placeholder="S101" maxlength="15" required="required" />
+<b>EMPLOYEE ID</b> </td><td><input type="text" name="eid2" id="eid" value="S101" placeholder="S101" maxlength="15" required="required" />
                      </td></tr>
                      <tr id="SupportId"><td>
 <b>Support ID</b>          </td><td><select name="sid" id="sid" />
