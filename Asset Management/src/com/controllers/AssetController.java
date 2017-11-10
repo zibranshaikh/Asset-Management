@@ -275,14 +275,14 @@ public class AssetController
          {
         	 String email=c.getEmail();
         	 String subject="Systango Employee Account Creation";
-        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Support id is : "+c.getSid();       	 
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getMid2()+" Your password is :  "+c.getPassword()+" Your Support id is : "+c.getSid();       	 
          sendMail(email,subject,message);
          }
          else if(c.getDesignation().equalsIgnoreCase("Support Team"))
          {
         	 String email=c.getEmail();
         	 String subject="Systango Employee Account Creation";
-        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword(); 	 
+        	 String message="Welcome to Systango Your Employee Id is : "+c.getEid2()+" Your password is :  "+c.getPassword(); 	 
          sendMail(email,subject,message);
          }
          mv=new ModelAndView("createEmp");//view name
@@ -424,8 +424,13 @@ public class AssetController
        int y=l.activateEmp(eid);
        if(y!=0)
        {
+    	   
+//    	   String email=c.getEmail();
+//      	 String subject="Systango Employee Account Creation";
+//      	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//       sendMail(email,subject,message);  
     	   EmpDao ed=new EmpDao();
- 	      List<Employee>list=ed.viewEmp();
+           List<Employee>list=ed.viewEmp();
  	       mv=new ModelAndView("viewEmp");//view name
  	       mv.addObject("LIST",list);
  	       mv.addObject("msg","Employee Succesfully Activated");
@@ -437,6 +442,11 @@ public class AssetController
        int y=l.deactivateEmp(eid);
        if(y!=0)
        {
+//    	   String email=c.getEmail();
+//      	 String subject="Systango Employee Account Creation";
+//      	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//       sendMail(email,subject,message);  
+ 
     	   EmpDao ed=new EmpDao();
  	      List<Employee>list=ed.viewEmp();
  	       mv=new ModelAndView("viewEmp");//view name
@@ -447,7 +457,7 @@ public class AssetController
        }
 	   if(op.equalsIgnoreCase("Update"))
 	   {     
-		   System.out.println("eid in update "+eid);
+          System.out.println("eid in update "+eid);
 		   EmpDao ed=new EmpDao();
 		      Employee e=ed.viewEmpUpdate(eid);
 		      mv=new ModelAndView("updateEmp");//view name
@@ -496,7 +506,12 @@ public class AssetController
       int y=l.approveReq(r);
       if(y==1)
       {
-   	       EmpDao rd=new EmpDao();
+//   	   String email=c.getEmail();
+//     	 String subject="Systango Employee Account Creation";
+//     	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//      sendMail(email,subject,message);  
+ 
+    	  EmpDao rd=new EmpDao();
 	       ArrayList<Request>list=rd.viewRequest();
 	       mv=new ModelAndView("viewReq");//view name
 	       mv.addObject("LIST",list);
@@ -505,6 +520,11 @@ public class AssetController
    }  else if(op.equalsIgnoreCase("Reject"))
          {
 	   
+//	   String email=c.getEmail();
+//  	 String subject="Systango Employee Account Creation";
+//  	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//   sendMail(email,subject,message);  
+
 	   EmpDao l=new EmpDao();
       int y=l.rejectReq(r);
       if(y==1)
@@ -638,6 +658,11 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
 	 
   	if(y==1)
   	{
+// 	   String email=c.getEmail();
+//   	 String subject="Systango Employee Account Creation";
+//   	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//    sendMail(email,subject,message);  
+
   	   Employee e=ed.viewEmpUpdate(eid);
 		mv=new ModelAndView("createRequest");
 		  mv.addObject("msg", "Request Sent To Manager");
@@ -704,6 +729,11 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
 	    int x=l.TransferEasset(eid1,eid,assetid);
 	    if(x==1)
 	    {
+//	    	   String email=c.getEmail();
+//	      	 String subject="Systango Employee Account Creation";
+//	      	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//	       sendMail(email,subject,message);  
+	 
 	  mv=new ModelAndView("EmployeeHome");
       mv.addObject("msg","Asset Transfered");
 	    }
@@ -719,7 +749,11 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
     int x=l.cancelReq(r);
     if(x==1)
     {
- 	  
+// 	   String email=c.getEmail();
+//   	 String subject="Systango Employee Account Creation";
+//   	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//    sendMail(email,subject,message);  
+ 
 	HttpSession ss=request.getSession();
 	  String y=(String)ss.getAttribute("user");
     RequestDao ld=new RequestDao();
@@ -749,7 +783,8 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
   
   @RequestMapping("/controller")
   protected ModelAndView result(HttpServletRequest request)
-  {System.out.println("helooooooooo");
+  {
+	  
   	ModelAndView mv=null;
   	HttpSession ss=request.getSession();
   	String eid=(String)ss.getAttribute("user");
@@ -783,6 +818,11 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
   	 int y=ed.chngEPass(cpass,npass2,eid1);
   	 if(y==1)
   	 {
+//  	   String email=c.getEmail();
+//    	 String subject="Systango Employee Account Creation";
+//    	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//     sendMail(email,subject,message);  
+
   		 mv=new ModelAndView("changeEPassword");
   		 mv.addObject("change", "Password Change");
   		 
@@ -790,6 +830,11 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
   	 }
   	 else
   	 {
+//  	   String email=c.getEmail();
+//    	 String subject="Systango Employee Account Creation";
+//    	 String message="Welcome to Systango Your Employee Id is : "+c.getEid1()+" Your password is :  "+c.getPassword()+" Your Manager id : "+c.getMid1();
+//     sendMail(email,subject,message);  
+
   		 mv=new ModelAndView("changeEPassword");
   		 mv.addObject("chng", "Failed,Current Password Doesnt Match");
   	 }
@@ -882,6 +927,7 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
  	        int status=1;
  	        EmpDao ed=new EmpDao();
  	        r.setStatus(status);
+ 	        r.setSid("S101");
  			int y=ed.MinsertRequest(r);
  			if(y!=0)
  			{
