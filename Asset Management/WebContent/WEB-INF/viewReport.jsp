@@ -65,11 +65,26 @@ for(Request cc:ar)
       st=cc.getStatus(); 
       if(st==4)
       {
-    	  status="Approved";
+    	  status="Rejected by Support";
       }
+
+      else if(st==0)
+      {
+    	  status="Pending with manager";
+      }
+      else if(st==1)
+      {
+    	  status="Approved by manager";
+      }
+      
+      else if(st==2)
+      {
+    	  status="Reject by manager";
+      }
+      
       else if(st==3)
       {
-    	  status="Rejected";
+    	  status="Approved by Support";
       }
       %>
     <td><%=status%></td>  

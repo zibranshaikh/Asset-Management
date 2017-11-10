@@ -1,5 +1,7 @@
 package com.controllers;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -12,6 +14,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.SessionFactory;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.AdminLogin;
+import beans.AllotedAsset;
 import beans.Asset;
 import beans.Employee;
 import beans.Request;
@@ -671,7 +675,7 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
  	  HttpSession ss=request.getSession();
  	  String y=(String)ss.getAttribute("user");
       RequestDao ld=new RequestDao();
-	  ArrayList<Request> list=ld.viewMyAsset(y);
+	  ArrayList<AllotedAsset> list=ld.viewMyAsset(y);
  	    mv=new ModelAndView("ViewMyAsset");
  		 mv.addObject("LIST", list);
  	  
@@ -685,7 +689,7 @@ protected ModelAndView insertReq(@ModelAttribute("Request") Request r,HttpServle
  	  HttpSession ss=request.getSession();
  	  String y=(String)ss.getAttribute("user");
       RequestDao ld=new RequestDao();
-	  ArrayList<Request> list=ld.viewMyAsset(y);
+	  ArrayList<AllotedAsset> list=ld.viewMyAsset(y);
 	  mv=new ModelAndView("AssetETransfer");
  		 mv.addObject("LIST", list);
 	    return mv;
@@ -984,4 +988,30 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
  	}
 
 
+ 	@RequestMapping("/CheckData")
+ 	protected void checkdata(@RequestParam String eid,HttpServletResponse response)
+ 	{
+ 		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 	
+ 		//ModelAndView mv=null;
+ 		EmpDao l=new EmpDao();
+ 		  
+ 	    int x=l.checkdata(eid);
+ 	    if(x==1)
+ 	    {
+ 	 	  out.println("1");
+ 		
+ 	    
+ 	    }
+ 	    else
+ 	    {
+ 	    	out.println("0");
+ 	    }
+}
 }

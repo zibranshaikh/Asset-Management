@@ -23,6 +23,7 @@ import org.hibernate.criterion.Restrictions;
 import com.controllers.AssetController;
 
 import beans.AdminLogin;
+import beans.AllotedAsset;
 import beans.Asset;
 import beans.Employee;
 import beans.Request;
@@ -417,22 +418,28 @@ public class EmpDao {
 	    Transaction tt=ss.beginTransaction();
 	     x=q.executeUpdate();
 				
-				
-				String hql2="select mid1 from Request where eid1=:a";
+			    String hql2="from Request where requestid=:a and eid1=:b";
 				Query q2=ss.createQuery(hql2);
-				q2.setString("a",r.getEid1());
-				List<String> list=(List<String>)q2.list();
-				String rd=list.get(0);
-			    
-		String hql1="update Asset set status=:a where eid1=:b and mid1=:c ";
-	    Query q1=ss.createQuery(hql1);
-	    int status1=1;
-	            q1.setInteger("a",status1);
-			    q1.setString("b",r.getEid1());
-			    q1.setString("c",rd);
-			    
-			     x=q1.executeUpdate();
-				     	tt.commit();
+				q2.setString("a",r.getRequestid());
+				q2.setString("b",r.getEid1());
+				List<Request> list=(List<Request>)q2.list();
+				for(Request r1:list)
+				{
+                AllotedAsset aa=new AllotedAsset(); 
+				int x1=0;
+				aa.setAssetid(r1.getAssetid());
+				aa.setAssetname(r1.getAssetname());
+				aa.setEid1(r.getEid1());
+				aa.setMid1(r.getMid1());
+				aa.setStatus(1);
+					if(ss.save(aa)!=null)
+					{
+				      x1=1;	
+					}
+			          System.out.println("X in save func in allotedasset "+x1);
+			      	
+				}	
+    			     	tt.commit();
 						ss.close();
 
 				
@@ -448,17 +455,28 @@ public class EmpDao {
 		    Transaction tt=ss.beginTransaction();
 	     x=q.executeUpdate();
 
-				 
-				int status1=1;
-	    String hql1="update Asset set status=:a where mid2=:b";
-	    Query q1=ss.createQuery(hql1);
-	            q1.setInteger("a",status1);
-			    q1.setString("b",r.getMid2());
-			    
-			     x=q1.executeUpdate();
-				     	tt.commit();
-						ss.close();
-
+	        String hql2="from Request where requestid=:a and mid2=:b";
+			Query q2=ss.createQuery(hql2);
+			q2.setString("a",r.getRequestid());
+			q2.setString("b",r.getMid2());
+			List<Request> list=(List<Request>)q2.list();
+			for(Request r1:list)
+			{
+         AllotedAsset aa=new AllotedAsset(); 
+			int x1=0;
+			aa.setAssetid(r1.getAssetid());
+			aa.setAssetname(r1.getAssetname());
+			aa.setMid2(r.getMid2());
+			aa.setStatus(1);
+				if(ss.save(aa)!=null)
+				{
+			      x1=1;	
+				}
+		          System.out.println("X in save func in allotedasset "+x1);
+		      	
+			}	
+			     	tt.commit();
+					ss.close();		 
 		}
 	
 	    	
@@ -877,7 +895,34 @@ public int rejectReq(Request r) {
 	public static void main(String[] args) {
 		System.out.println(new EmpDao().getEmpDetail());
 	}
+
+
+public int checkdata(String eid)
+{
+	int x=0;
+	AssetController ac=new AssetController();
+	Session ss= ac.session();
+	Criteria crit=ss.createCriteria(Employee.class);
+	crit.add(Restrictions.eq("eid1", eid));
+	ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+	if(!list.isEmpty())
+	{
+		x=1;
+	}
+ss.close();
+return x;
+	
 }
+
+
+
+
+
+
+
+
+}
+
 	
 	
 

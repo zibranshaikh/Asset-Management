@@ -14,5 +14,6 @@
     <mapping class="beans.Asset"/>
     <mapping class="beans.Employee"/>
     <mapping class="beans.Request"/>
+    <mapping class="beans.AllotedAsset"/>
   </session-factory>
 </hibernate-configuration>

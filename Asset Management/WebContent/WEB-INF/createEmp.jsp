@@ -82,7 +82,7 @@ border: none;
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script type="text/javascript">
+<script>
 $(document).ready(function(){
 	  $("#Manager").hide();
 	  $("#Support").hide();
@@ -138,6 +138,23 @@ $(document).ready(function(){
     	    	 	 $("#SupportId").hide();
     	    	 }
     	    });
+     
+     	$("#eid111").change(function(){
+     		alert("hello");
+     		var data="eid="+$("#eid111").val();
+     		alert(data);
+     		$.ajax({
+     			url:'./CheckData',
+     			data:data,
+     			type:'post',
+     			success:function(result){
+     				if(result.match("1"))
+     					{
+     					alert("Data already exist");
+     					}
+     			}
+     		});
+     	});
      });
 </script>
 
@@ -250,7 +267,7 @@ if(m!=null)
                      </select></td></tr>
                     
                      <tr id="Employee"><td>
-<b>EMPLOYEE ID</b>          </td><td><input type="text" name="eid1" id="eid" placeholder="E101" value="E101" maxlength="15" required="required" />
+<b>EMPLOYEE ID</b>          </td><td><input type="text" name="eid1" id="eid111" placeholder="E101" value="E101" maxlength="15" required="required" />
                      </td></tr>
                      <tr id="Manager"><td>
 <b>Manager ID</b>           </td><td><select name="mid1" id="mid" />

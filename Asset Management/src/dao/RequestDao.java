@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.controllers.AssetController;
 
+import beans.AllotedAsset;
 import beans.Asset;
 import beans.Employee;
 import beans.Request;
@@ -60,17 +61,17 @@ public class RequestDao {
 	
 	}
 	
-	public ArrayList<Request> viewMyAsset(String y)
+	public ArrayList<AllotedAsset> viewMyAsset(String y)
 	{     
 		
 	    int status=1;
 		AssetController ac=new AssetController();
 		Session ss= ac.session();
-		Criteria crit = ss.createCriteria(Asset.class);
+		Criteria crit = ss.createCriteria(AllotedAsset.class);
 		crit.add(Restrictions.eq("eid1",y));
 		crit.add(Restrictions.eq("status",status));
 		
-	    ArrayList<Request> list = (ArrayList<Request>) crit.list();
+	    ArrayList<AllotedAsset> list = (ArrayList<AllotedAsset>) crit.list();
 		ss.close();
 		
 		return list;

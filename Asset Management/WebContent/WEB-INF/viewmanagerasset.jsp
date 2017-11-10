@@ -22,10 +22,10 @@
   <th>EmployeeId</th>
   <th>Status</th>
   </tr>
-<%@page import="java.util.ArrayList,beans.Asset" %>
+<%@page import="java.util.ArrayList,beans.AllotedAsset" %>
 <%
-ArrayList<Asset> ar=(ArrayList<Asset>)request.getAttribute("LIST");
-for(Asset cc:ar)
+ArrayList<AllotedAsset> ar=(ArrayList<AllotedAsset>)request.getAttribute("LIST");
+for(AllotedAsset cc:ar)
 {
 %>
 <tr> 

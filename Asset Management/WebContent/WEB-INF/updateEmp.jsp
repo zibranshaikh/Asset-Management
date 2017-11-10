@@ -159,7 +159,7 @@ Employee cc=(Employee)request.getAttribute("E");
                        <option>Support Team</option>       
                      </select></td></tr>
 
-                      <tr id="Employee"><td>
+                      <tr id="Employee"><td>SSSS
 <b>EMPLOYEE ID</b>          </td><td><input type="text" name="eid1" id="eid" placeholder="E101" value="E101" maxlength="15" required="required" />
                      </td></tr>
                      <tr id="Manager"><td>
