@@ -81,6 +81,34 @@ border: none;
   background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
 }
 </style>
+<script>
+function Submit(){
+	var emailRegex = /^[A-Za-z0-9._]*\@[A-Za-z]*\.[A-Za-z]{2,5}$/;
+	var name = document.form.name.value;
+	
+	if( name == "" )
+	   {
+	     document.form.name.focus() ;
+		 document.getElementById("errorBox").innerHTML = "enter the first name";
+	     return false;
+	   }
+
+	
+	if (email == "" )
+	{
+		document.form.email.focus();
+		document.getElementById("errorBox").innerHTML = "enter the email";
+		return false;
+	 }else if(!emailRegex.test(email)){
+		document.form.email.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid email";
+		return false;
+	 }
+	 
+	  
+
+	</script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -140,9 +168,9 @@ $(document).ready(function(){
     	    });
      
      	$("#eid111").change(function(){
-     		alert("hello");
+     		//alert("hello");
      		var data="eid="+$("#eid111").val();
-     		alert(data);
+     		//alert(data);
      		$.ajax({
      			url:'./CheckData',
      			data:data,
@@ -150,12 +178,54 @@ $(document).ready(function(){
      			success:function(result){
      				if(result.match("1"))
      					{
-     					alert("Data already exist");
+     					$("#eid111").val('');
+     					alert("Employee already exist");
      					}
      			}
      		});
      	});
+    
+     $("#email1").change(function(){
+    	 var data="email1="+$("#email1").val();
+    	// alert(data);
+    	 $.ajax({
+    		 url:'./CheckEmail',
+    		 data:data,
+    		 type:'post',
+    		 success:function(result)
+    		 { 
+    			 if(result.match("1"))
+    				 {
+    				 $("#email1").val('');
+    				 alert("Email Already exist");
+    				 }
+    		 }
+    	 });
+    	 
      });
+     	
+     $("#mobile1").change(function(){
+    	 var data="mobile1="+$("#mobile1").val();
+    //	 alert(data);
+    	 $.ajax({
+    		 url:'./CheckMobile',
+    		 data:data,
+    		 type:'post',
+    		 success:function(result)
+    		 {
+    			 if(result.match("1"))
+    				 {
+    				 $("#mobile1").val('');
+    				 alert("Mobile Already exist");
+    				 }
+    		 }
+    	 });
+    	 
+    	 
+     })	;
+     
+     
+});
 </script>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -254,11 +324,11 @@ if(m!=null)
 <font color="red"><h1>Create Employee</h1></font>
 <table cellpadding="10" cellspacing="10" height="50%" width="30%">
  <form action="./insertEmp" method="post">
- <tr><td><b>Name</b></td><td><input type="text" name="name" required="required" /></td></tr>
- <tr><td><b>Address</b></td><td><input type="text" name="address" required="required" /></td></tr>
- <tr><td><b>Email</b></td><td><input type="email" name="email" required="required" /></td></tr>
- <tr><td><b>Mobile</b></td><td><input type="text" name="mobile" required="required" /></td></tr>
- <tr><td><b>Password</b></td><td><input type="password" name="password" required="required" /></td></tr>
+ <tr><td><b>Name</b></td><td><input type="text" name="name"  required/></td></tr>
+ <tr><td><b>Address</b></td><td><input type="text" name="address" required /></td></tr>
+ <tr><td><b>Email</b></td><td><input type="email" name="email"  id="email1" required /></td></tr>
+ <tr><td><b>Mobile</b></td><td><input type="text" name="mobile" id="mobile1" required /></td></tr>
+ <tr><td><b>Password</b></td><td><input type="password" name="password" required /></td></tr>
  <tr><td><b>Designation</b></td><td><select  id="empDes" name="designation"  required="required" onblur="return validate()">
                      <option>Select</option>
                      <option value="Manager">Manager</option>
@@ -267,7 +337,7 @@ if(m!=null)
                      </select></td></tr>
                     
                      <tr id="Employee"><td>
-<b>EMPLOYEE ID</b>          </td><td><input type="text" name="eid1" id="eid111" placeholder="E101" value="E101" maxlength="15" required="required" />
+<b>EMPLOYEE ID</b>          </td><td><input type="text" name="eid1" id="eid111" placeholder="E101"  maxlength="15" required="required" />
                      </td></tr>
                      <tr id="Manager"><td>
 <b>Manager ID</b>           </td><td><select name="mid1" id="mid" />
@@ -286,7 +356,7 @@ if(m!=null)
 
 <tr><td><b>Date Of Joining</b></td><td><input type="date" name="dateofjoin" required="required" /></td></tr>
 
-<tr><td></td><td><input type="submit" value="create" onclick="return confirm('Are you Sure')" /></td></tr>
+<tr><td></td><td><input type="submit" value="create" onClick="Submit()" /></td></tr>
 </form>
 </table>
 </div>

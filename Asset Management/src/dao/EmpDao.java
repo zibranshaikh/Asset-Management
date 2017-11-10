@@ -915,8 +915,41 @@ return x;
 }
 
 
+public int checkemail(String email)
+{
+	//System.out.println("Heloo");
+	int x=0;
+	AssetController ac=new AssetController();
+	Session ss= ac.session();
+	Criteria crit=ss.createCriteria(Employee.class);
+	crit.add(Restrictions.eq("email", email));
+	ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+	if(!list.isEmpty())
+	{
+		x=1;
+	}
+ss.close();
+return x;
+	
+}
 
-
+public int checkmobile(long mobile)
+{
+	//System.out.println("Heloo");
+	int x=0;
+	AssetController ac=new AssetController();
+	Session ss= ac.session();
+	Criteria crit=ss.createCriteria(Employee.class);
+	crit.add(Restrictions.eq("mobile", mobile));
+	ArrayList<Employee> list = (ArrayList<Employee>) crit.list();
+	if(!list.isEmpty())
+	{
+		x=1;
+	}
+ss.close();
+return x;
+	
+}
 
 
 

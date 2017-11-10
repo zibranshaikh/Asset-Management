@@ -809,7 +809,7 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
 	    	x=x+y;
 	    	//System.out.println("Aaa gyi x mai"+x);
 	    	mv=new ModelAndView("getassetid");
-	    			mv.addObject("value", x);
+	    	mv.addObject("value", x);
 	    	}
 //	    	else {
 //	    		String s="No Content";
@@ -1014,4 +1014,65 @@ protected ModelAndView cancelRequest(@ModelAttribute("Request") Request r,HttpSe
  	    	out.println("0");
  	    }
 }
+ 	
+ 	
+ 	
+ 	
+ 	@RequestMapping("/CheckEmail")
+ 	protected void checkmail(@RequestParam String email1,HttpServletResponse response)
+ 	{
+ 		System.out.println("Hello");
+ 		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 	
+ 		ModelAndView mv=null;
+ 		EmpDao l=new EmpDao();
+ 		  
+ 	    int x=l.checkemail(email1);
+ 	    if(x==1)
+ 	    {
+ 	 	  out.println("1");
+ 		
+ 	    }
+ 	    else
+ 	    {
+ 	    	out.println("0");
+ 	    }
+}
+ 	
+ 	
+	@RequestMapping("/CheckMobile")
+ 	protected void checkmonbile(@RequestParam long mobile1,HttpServletResponse response)
+ 	{
+ 		System.out.println("Hello");
+ 		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 	
+ 		ModelAndView mv=null;
+ 		EmpDao l=new EmpDao();
+ 		  
+ 	    int x=l.checkmobile(mobile1);
+ 	    if(x==1)
+ 	    {
+ 	 	  out.println("1");
+ 		
+ 	    }
+ 	    else
+ 	    {
+ 	    	out.println("0");
+ 	    }
+}
+
+ 	
+ 	
 }
